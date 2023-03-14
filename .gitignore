@@ -1,6 +1,7 @@
 # server side 
 node_modules
 package-lock.json
+.env
 
 # client side
 client/yarn.*lock
