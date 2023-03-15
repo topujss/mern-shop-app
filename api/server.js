@@ -2,7 +2,8 @@ import express from 'express';
 import colors from 'colors';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import categoryRoute from './routes/product/category.js';
+import categoryRoute from './routes/categoryRoute.js';
+import brandRoute from './routes/brandRoute.js';
 import mongoDBConnect from './config/db.js';
 
 // init express
@@ -22,6 +23,7 @@ app.use(express.static('api/public'));
 
 // route prefix
 app.use('/api/v1/product', categoryRoute);
+app.use('/api/v1/product', brandRoute);
 
 // listen the server
 app.listen(PORT, () => {
