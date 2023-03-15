@@ -13,6 +13,11 @@ const brandSchema = Schema(
       required: true,
       trim: true,
     },
+    photo: {
+      type: String,
+      trim: true,
+      default: null,
+    },
     status: {
       type: Boolean,
       default: true,
