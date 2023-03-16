@@ -6,6 +6,7 @@ export const serverError = (error, req, res, next) => {
   const errMsg = error.message || 'Server error';
 
   return res.status(errStatus).json({
+    errorName: error.name,
     message: errMsg,
     status: errStatus,
     stack: (error.stack = null),

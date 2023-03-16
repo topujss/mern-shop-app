@@ -8,7 +8,7 @@ import { customErr } from '../utils/customError.js';
 
 export const getAllProductCategory = async (req, res, next) => {
   try {
-    const data = await Category.find();
+    const data = await Category.fin2d();
     res.status(200).json({
       categories: data,
       message: 'Got all data',
