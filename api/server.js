@@ -23,7 +23,6 @@ app.use(cors());
 // set static folder
 app.use(express.static('api/public'));
 
-
 // route prefix
 app.use(process.env.API_PREFIX, categoryRoute);
 app.use(process.env.API_PREFIX, brandRoute);

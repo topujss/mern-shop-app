@@ -1,25 +1,24 @@
 import { Router } from 'express';
 import {
-  createProductBrand,
-  deleteProductBrand,
-  editProductBrand,
-  getAllProductBrand,
-  getSingleProductBrand,
-} from '../controllers/productBrand.js';
-import { brandMulter } from '../utils/multer.js';
+  createProductTag,
+  deleteProductTag,
+  editProductTag,
+  getAllProductTag,
+  getSingleProductTag,
+} from '../controllers/productTag.js';
 
-// create brand router
+// create Tag router
 const router = Router();
 
 /**
- * @link /brand
+ * @link /tag
  * get category route using params slug
  */
-router.route('/brand').get(getAllProductBrand).post(brandMulter, createProductBrand);
+router.route('/tag').get(getAllProductTag).post(createProductTag);
 
 /**
  * @param id
- * get, put and delete brand route using params id
+ * get, put and delete Tag route using params id
  */
-router.route('/brand/:id').get(getSingleProductBrand).put(editProductBrand).delete(deleteProductBrand);
+router.route('/tag/:id').get(getSingleProductTag).put(editProductTag).delete(deleteProductTag);
 export default router;
