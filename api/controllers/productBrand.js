@@ -1,13 +1,10 @@
 import Brand from '../models/Brand.js';
 
-// error message if req failed
-const errMsg = (err) => console.log(`${err.message}`.bgRed);
-
 /**
  * @function getAllBrand
  * you can get a list of brands
  */
-export const getAllProductBrand = async (req, res) => {
+export const getAllProductBrand = async (req, res, next) => {
   try {
     const data = await Brand.find();
     res.status(200).json({
@@ -15,7 +12,7 @@ export const getAllProductBrand = async (req, res) => {
       msg: 'brands fetch Success',
     });
   } catch (error) {
-    errMsg(error);
+    next(error);
   }
 };
 
@@ -41,20 +38,20 @@ export const createProductBrand = async (req, res) => {
 };
 
 /**
- * @param slug
+ * @param id
  * @function getSingleProductBrand
  * you can get a single brand by slug
  */
-export const getSingleProductBrand = async (req, res) => {
+export const getSingleProductBrand = async (req, res, next) => {
   try {
-    const { slug } = req.params;
-    const getData = await Brand.findOne({ slug });
+    const { id } = req.params;
+    const getData = await Brand.findById(id);
     res.status(200).json({
-      brand: getData,
+      getData,
       msg: 'got single product brand',
     });
   } catch (error) {
-    errMsg(error);
+    next(error);
   }
 };
 
@@ -80,14 +77,14 @@ export const deleteProductBrand = async (req, res) => {
  * @function editProductBrand
  * edit a single product brand by id
  */
-export const editProductBrand = async (req, res) => {
+export const editProductBrand = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { brand, slug } = req.body;
+    const { brand, slug, photo } = req.body;
 
-    await Brand.findByIdAndUpdate(id, { brand, slug }, { new: true });
+    await Brand.findByIdAndUpdate(id, { brand, slug, photo }, { new: true });
     res.status(200).json({ msg: 'product brand updated' });
   } catch (error) {
-    errMsg(error);
+    next(error);
   }
 };

@@ -94,7 +94,7 @@ export const editProductCategory = async (req, res, next) => {
     const { name, slug } = req.body;
 
     // use new: true for instant update
-    const data = await Category.findByIdAndUpda4te(id, { name, slug }, { new: true });
+    await Category.findByIdAndUpda4te(id, { name, slug }, { new: true });
     res.status(200).json({
       msg: 'Category updated successfully',
     });

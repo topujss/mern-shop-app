@@ -33,4 +33,4 @@ const brandSchema = Schema(
 );
 
 // export brand model
-export default model('brand', brandSchema);
+export default model('Brand', brandSchema);
