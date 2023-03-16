@@ -5,6 +5,7 @@ import cors from 'cors';
 import categoryRoute from './routes/categoryRoute.js';
 import brandRoute from './routes/brandRoute.js';
 import mongoDBConnect from './config/db.js';
+import { serverError } from './middlewares/serverErrorHandler.js';
 
 // init express
 const app = express();
@@ -24,6 +25,8 @@ app.use(express.static('api/public'));
 // route prefix
 app.use('/api/v1/product', categoryRoute);
 app.use('/api/v1/product', brandRoute);
+
+app.use(serverError);
 
 // listen the server
 app.listen(PORT, () => {
