@@ -1,5 +1,5 @@
 /**
- * find an error before server crash
+ * @find an error before server crash
  */
 export const serverError = (error, req, res, next) => {
   const errStatus = error.status || 500;

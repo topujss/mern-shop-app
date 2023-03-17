@@ -13,8 +13,15 @@ const storage = diskStorage({
       case 'brand_photo':
         cb(null, 'api/public/brands');
         break;
-      case 'product_photo' || 'gallery_photo':
+      case 'product_photo':
         cb(null, 'api/public/products');
+        break;
+      case 'gallery_photo':
+        cb(null, 'api/public/products');
+        break;
+
+      default:
+        cb(null, 'api/public/products')
     }
   },
 });

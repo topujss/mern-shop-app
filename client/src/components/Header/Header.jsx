@@ -1,31 +1,40 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const LogoUrl = `https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg`;
+import { RiHome8Line } from 'react-icons/ri';
+import { TfiHandPointRight } from 'react-icons/tfi';
 
 function Header() {
+  const { pathname } = useLocation();
+
   return (
     <>
-      <section className="shadow-sm bg-teal-400  text-white">
-        <header className="max-w-screen-xl mx-auto flex justify-between items-center py-5">
-          <Link to="/" className="logo">
-            <img className="w-full h-16 object-cover" src={LogoUrl} alt="" />
-          </Link>
-          <nav>
-            <ul className="flex gap-x-5 text-xl font-light">
+      <section className="shadow-sm bg-neutral-300  text-white">
+        <header className="max-w-screen-xl mx-auto flex justify-center items-center py-2">
+          <nav className="flex justify-center" aria-label="Breadcrumb">
+            <ul className="inline-flex justify-center space-x-1 items-center">
               <li>
-                <NavLink to="/">Home</NavLink>
+                <RiHome8Line className="text-xl mr-2 inline-block text-emerald-400" />
+                <Link to="/" className={pathname === '/' ? 'text-emerald-500 font-bold' : 'text-gray-500'}>
+                  Home
+                </Link>
               </li>
               <li>
-                <NavLink to="/about">About</NavLink>
+                <TfiHandPointRight className="text-xl mr-2 inline-block text-sky-600" />
+                <Link
+                  to="/about"
+                  className={pathname === '/about' ? 'text-emerald-500 font-bold' : 'text-gray-500'}
+                >
+                  About
+                </Link>
               </li>
               <li>
-                <NavLink to="/shop">Shop</NavLink>
-              </li>
-              <li>
-                <NavLink to="/team">Team</NavLink>
-              </li>
-              <li>
-                <NavLink to="/contact">Contact</NavLink>
+                <TfiHandPointRight className="text-xl mr-2 inline-block text-sky-600" />
+                <Link
+                  to="/todo"
+                  className={pathname === '/todo' ? 'text-emerald-500 font-bold capitalize' : 'text-gray-500'}
+                >
+                  todo
+                </Link>
               </li>
             </ul>
           </nav>

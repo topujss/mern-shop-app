@@ -2,10 +2,17 @@ import express from 'express';
 import colors from 'colors';
 import dotenv from 'dotenv';
 import cors from 'cors';
+
+// routes
 import categoryRoute from './routes/categoryRoute.js';
 import brandRoute from './routes/brandRoute.js';
 import tagRoute from './routes/tagRoute.js';
+import productRoute from './routes/productRoute.js';
+
+// mongodb
 import mongoDBConnect from './config/db.js';
+
+// error handler
 import { serverError } from './middlewares/serverErrorHandler.js';
 
 // init express
@@ -27,6 +34,7 @@ app.use(express.static('api/public'));
 app.use(process.env.API_PREFIX, categoryRoute);
 app.use(process.env.API_PREFIX, brandRoute);
 app.use(process.env.API_PREFIX, tagRoute);
+app.use(process.env.API_PREFIX, productRoute);
 
 app.use(serverError);
 

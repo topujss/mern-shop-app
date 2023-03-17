@@ -23,6 +23,7 @@ export const getAllProductBrand = async (req, res, next) => {
 export const createProductBrand = async (req, res) => {
   try {
     const { brand, slug } = req.body;
+    console.log(req.file);
     const data = await Brand.create({
       brand,
       slug,
