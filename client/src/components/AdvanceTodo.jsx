@@ -1,4 +1,27 @@
+import { useState } from 'react';
+
 const AdvanceTodo = () => {
+  const [data, setData] = useState({
+    todo: '',
+    date: '',
+    time: '',
+    order: 'DESC',
+    fri: false,
+    sat: false,
+    sun: false,
+    mon: false,
+    tue: false,
+    wed: false,
+    thu: false,
+  });
+
+  const handleSub = () => {
+    if (data.todo === '') {
+      console.log(`Note is required`);
+    }
+    console.log('data' + { data });
+  };
+
   return (
     <>
       <h1 className="text-3xl text-emerald-500 capitalize font-semibold">advance Todo </h1>
@@ -7,6 +30,8 @@ const AdvanceTodo = () => {
           type="text"
           placeholder="Type your notes..."
           className=" w-full rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-green-500 py-1 px-3 leading-8 transition-all duration-300 ease-in-out"
+          value={data.todo}
+          onChange={(e) => setData({ ...data, todo: e.target.value })}
         />
         <section className="schedule flex justify-center gap-5 my-5">
           <div className="date">
@@ -16,6 +41,8 @@ const AdvanceTodo = () => {
             <input
               type="date"
               className="rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-green-500 py-1 px-3 leading-8 transition-all duration-300 ease-in-out"
+              value={data.date}
+              onChange={(e) => setData({ ...data, date: e.target.value })}
             />
           </div>
           <div className="time">
@@ -25,34 +52,93 @@ const AdvanceTodo = () => {
             <input
               type="time"
               className="rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-green-500 py-1 px-3 leading-8 transition-all duration-300 ease-in-out"
+              value={data.time}
+              onChange={(e) => setData({ ...data, time: e.target.value })}
             />
           </div>
         </section>
         {/*  */}
         <section className="bottom-main flex justify-center gap-5 my-5">
-          <div className="order">
-            <input id="radio1" type="radio" value="" name="default-radio" />
-            <label for="radio1" class="ml-2 text-sm font-medium text-gray-900 ">
+          <div className="order" value={data.order} onChange={(e) => setData({ ...data, order: e.target.value })}>
+            <input id="radio1" type="radio" value="ASC" name="default-radio" />
+            <label htmlFor="radio1" className="ml-2 text-sm font-medium text-gray-900 ">
               ASC
             </label>
-            <input checked id="radio2" type="radio" value="" name="default-radio" />
-            <label for="radio2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <input checked id="radio2" type="radio" value="DESC" name="default-radio" />
+            <label htmlFor="radio2" className="ml-2 text-sm font-medium text-gray-900">
               DESC
             </label>
           </div>
           <div className="day flex gap-2">
-            <input type="checkbox" name="" id="" value="fri" /> <label htmlFor="">Friday</label>
-            <input type="checkbox" name="" id="" value="sat" /> <label htmlFor="">Saturday</label>
-            <input type="checkbox" name="" id="" value="sun" /> <label htmlFor="">Sunday</label>
-            <input type="checkbox" name="" id="" value="mon" /> <label htmlFor="">Monday</label>
-            <input type="checkbox" name="" id="" value="tue" /> <label htmlFor="">Tueday</label>
-            <input type="checkbox" name="" id="" value="wed" /> <label htmlFor="">Wednesday</label>
-            <input type="checkbox" name="" id="" value="thu" /> <label htmlFor="">Thursday</label>
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              value="fri"
+              checked={data.fri}
+              onChange={(e) => setData({ ...data, fri: e.target.checked })}
+            />{' '}
+            <label htmlFor="">Friday</label>
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              value="sat"
+              checked={data.sat}
+              onChange={(e) => setData({ ...data, sat: e.target.checked })}
+            />{' '}
+            <label htmlFor="">Saturday</label>
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              value="sun"
+              checked={data.sun}
+              onChange={(e) => setData({ ...data, sun: e.target.checked })}
+            />{' '}
+            <label htmlFor="">Sunday</label>
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              value="mon"
+              checked={data.mon}
+              onChange={(e) => setData({ ...data, mon: e.target.checked })}
+            />{' '}
+            <label htmlFor="">Monday</label>
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              value="tue"
+              checked={data.tue}
+              onChange={(e) => setData({ ...data, tue: e.target.checked })}
+            />{' '}
+            <label htmlFor="">Tueday</label>
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              value="wed"
+              checked={data.wed}
+              onChange={(e) => setData({ ...data, wed: e.target.checked })}
+            />{' '}
+            <label htmlFor="">Wednesday</label>
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              value="thu"
+              checked={data.thu}
+              onChange={(e) => setData({ ...data, thu: e.target.checked })}
+            />{' '}
+            <label htmlFor="">Thursday</label>
           </div>
         </section>
         <button
           className="px-6 py-1 font-sans font-semibold text-white bg-orange-500 rounded-lg h-[60px] text-xl"
           type="submit"
+          onSubmit={handleSub()}
         >
           Submit the form
         </button>
