@@ -1,3 +1,4 @@
+import { slugify } from '../helper/slugify.js';
 import Product from '../models/Product.js';
 
 /**
@@ -22,22 +23,28 @@ export const getAllProduct = async (req, res, next) => {
  */
 export const createProduct = async (req, res, next) => {
   try {
-    const { product, slug, price, desc } = req.body;
+    const { product, price, sale_price, condtion, stock, desc, long_desc, categories, tags, brands } = req.body;
 
-    const galleryData = [];
+    // get single photo
+    const photo = req.files.product_photo[0].filename;
 
-    const fileData = req.files.gallery_photo;
-
-    fileData.forEach((gal) => {
-      galleryData.push(gal.filename);
+    // get all gallery photos from array
+    const gallery = [];
+    [...req.files.gallery_photo].forEach((pic) => {
+      gallery.push(pic.filename);
     });
+
     const data = await Product.create({
       product,
-      slug,
+      slug: slugify(product),
       price,
+      sale_price,
+      condtion,
+      stock,
       desc,
-      photo: req.files.product_photo[0].filename,
-      gallery: galleryData,
+      long_desc,
+      photo,
+      gallery,
     });
     res.status(200).json({
       msg: 'product create Success',
@@ -49,17 +56,17 @@ export const createProduct = async (req, res, next) => {
 };
 
 /**
- * @param id
+ * @param slug
  * @function getSingleProduct
- * you can get a single product by id
+ * you can get a single product by slug
  */
 export const getSingleProduct = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const getData = await Product.findById(id);
+    const { slug } = req.params;
+    const getData = await Product.findOne({ slug });
     res.status(200).json({
-      getData,
       msg: 'got single product',
+      getData,
     });
   } catch (error) {
     next(error);

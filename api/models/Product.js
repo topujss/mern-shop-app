@@ -24,6 +24,7 @@ const productSchema = Schema(
     condition: {
       type: String,
       trim: true,
+      default: 'New',
     },
     stock: {
       type: Number,
