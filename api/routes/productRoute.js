@@ -8,7 +8,7 @@ import {
 } from '../controllers/product.js';
 import { productMulter } from '../utils/multer.js';
 
-// create  router
+// create router
 const router = Router();
 
 /**
@@ -21,7 +21,8 @@ router.route('/').get(getAllProduct).post(productMulter, createProduct);
  * @param id
  * get, put and delete  route using params id
  */
-router.route('/:id').get(getSingleProduct).put(editProduct).delete(deleteProduct);
+router.get('/:slug',getSingleProduct);
+router.route('/:id').put(editProduct).delete(deleteProduct);
 
 // export the route
 export default router;
