@@ -1,5 +1,6 @@
 import { slugify } from '../helper/slugify.js';
 import Product from '../models/Product.js';
+import { unlinkSync } from 'fs';
 
 /**
  * @function getAllProduct
@@ -33,6 +34,8 @@ export const createProduct = async (req, res, next) => {
     [...req.files.gallery_photo].forEach((pic) => {
       gallery.push(pic.filename);
     });
+
+    photo ? photo.filename : gallery[0].filename;
 
     const data = await Product.create({
       product,
@@ -81,7 +84,16 @@ export const getSingleProduct = async (req, res, next) => {
 export const deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Product.findByIdAndDelete(id);
+    const deleted = await Product.findByIdAndDelete(id);
+
+    // delete single product photo
+    unlinkSync(`api/public/products/${deleted.photo}`);
+
+    // delete gallery photos
+    deleted.gallery.forEach((pic) => {
+      unlinkSync(`api/public/products/${pic}`);
+    });
+
     res.status(200).json({
       msg: 'product deleted',
     });
