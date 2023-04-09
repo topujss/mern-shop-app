@@ -24,7 +24,7 @@ export const getAllProduct = async (req, res, next) => {
  */
 export const createProduct = async (req, res, next) => {
   try {
-    const { product, price, sale_price, condtion, stock, desc, long_desc, categories, tags, brands } = req.body;
+    const { product, price, sale_price, condition, stock, desc, long_desc, categories, tags, brands } = req.body;
 
     // get single photo
     const photo = req.files.product_photo[0].filename;
@@ -42,7 +42,7 @@ export const createProduct = async (req, res, next) => {
       slug: slugify(product),
       price,
       sale_price,
-      condtion,
+      condition,
       stock,
       desc,
       long_desc,
@@ -110,19 +110,36 @@ export const deleteProduct = async (req, res, next) => {
 export const editProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { product, slug, price, desc } = req.body;
 
-    const updateData = await Product.findByIdAndUpdate(
-      id,
+    const { product, price, sale_price, condition, stock, desc, long_desc } = req.body;
+
+    // get edited product
+    const productEdit = await Product.findById(id);
+
+    // single photo update
+    let photo = productEdit.photo;
+    if (req.files.product_photo != null) {
+      photo = req.files.product_photo[0].filename;
+      unlinkSync(`api/public/products/${productEdit.photo}`);
+    }
+
+    const updatedData = await productEdit.updateOne(
       {
         product,
-        slug,
+        slug: slugify(product),
         price,
+        sale_price,
+        condition,
+        stock,
         desc,
+        long_desc,
       },
       { new: true }
     );
-    res.status(200).json({ updateData, msg: 'product updated' });
+    res.status(200).json({
+      product: updatedData,
+      msg: 'product updated',
+    });
   } catch (error) {
     next(error);
   }

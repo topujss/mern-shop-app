@@ -6,13 +6,10 @@ const productSchema = Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
     slug: {
       type: String,
-      required: true,
       trim: true,
-      unique: true,
     },
     price: {
       type: Number,
@@ -24,6 +21,7 @@ const productSchema = Schema(
     condition: {
       type: String,
       trim: true,
+      enum: ['New', 'Refurbised', 'Clearance'],
       default: 'New',
     },
     stock: {
