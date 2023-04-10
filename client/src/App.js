@@ -1,14 +1,16 @@
-import { RouterProvider } from 'react-router-dom';
-// import 'react-toastify/dist/ReactToastify.css';
-import myRoutes from './router/router';
+import { Container } from '@mui/material';
+import Bootstrap from './components/Bootstrap';
+import Mui from './components/Mui';
 
-function App() {
+const App = () => {
   return (
     <>
-      {/* Set my router function to RouterProvider  */}
-      <RouterProvider router={myRoutes} />
+      <Container fixed>
+        {/* <Bootstrap /> */}
+        <Mui />
+      </Container>
     </>
   );
-}
+};
 
 export default App;
