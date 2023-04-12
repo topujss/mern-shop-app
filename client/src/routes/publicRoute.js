@@ -1,14 +1,13 @@
-// import { createBrowserRouter } from 'react-router-dom';
-// import Shop from '../pages/Shop/Shop';
-// import Single from '../pages/Single/Single';
+import { createBrowserRouter } from 'react-router-dom';
+import Shop from '../pages/Shop/Shop';
 
-// // create public route
-// const publicRoute = createBrowserRouter([
-//   {
-//     path: '/single',
-//     element: <Single />,
-//   },
-// ]);
+// create a public route
+const publicRoute = createBrowserRouter([
+  {
+    path: '/',
+    element: <Shop />,
+  },
+]);
 
-// // export public route
-// export default publicRoute;
+// export routes
+export default publicRoute;

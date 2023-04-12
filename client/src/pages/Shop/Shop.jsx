@@ -1,7 +1,10 @@
-import React from 'react';
+import Header from '../../components/Header/Header';
 
-const Shop = () => {
-  return <div>my Shop</div>;
-};
-
-export default Shop;
+export default function Shop() {
+  return (
+    <>
+      <Header />
+      <h1>Im at shop</h1>
+    </>
+  );
+}

@@ -1,0 +1,20 @@
+ul {
+  list-style: none;
+  padding: 10px;
+  background: #b12872;
+  li {
+    a {
+      padding: 4px 16px;
+      text-decoration: none;
+      color: yellow;
+      text-transform: uppercase;
+      &:hover {
+        color: orangered;
+      }
+    }
+  }
+}
+a.active {
+  color: darkblue;
+  font-weight: bold;
+}
