@@ -1,4 +1,4 @@
-ul {
+.menu_area {
   list-style: none;
   padding: 10px;
   background: #b12872;
@@ -11,10 +11,10 @@ ul {
       &:hover {
         color: orangered;
       }
+      a.active {
+        color: darkblue;
+        font-weight: bold;
+      }
     }
   }
-}
-a.active {
-  color: darkblue;
-  font-weight: bold;
 }

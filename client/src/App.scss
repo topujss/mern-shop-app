@@ -6,10 +6,12 @@ ul {
   list-style: none;
 }
 a {
-  text-decoration: none;
-  text-transform: uppercase;
+  text-decoration: none !important;
 }
 
-:hover {
-  transition: all 0.3s ease-in-out;
+// :hover {
+//   transition: all 0.3s ease-in-out;
+// }
+input:focus {
+  outline: none;
 }

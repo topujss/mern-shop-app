@@ -1,0 +1,71 @@
+.single_area {
+  .single_info {
+    .price {
+      border-color: aliceblue !important;
+      padding: 20px 0;
+      .reg {
+        color: #b12872;
+      }
+    }
+    .single_btn {
+      height: 50px;
+      input {
+        padding: 0 10px 0 20px;
+        width: 4.5rem;
+        border: none;
+        background: #f3f5f6;
+      }
+      button {
+        background-color: #b12872;
+        border-color: #b12872;
+        color: #fff;
+        text-transform: uppercase;
+        &:hover {
+          background-color: #fff;
+          border-color: #b12872;
+          color: #b12872;
+        }
+        &:nth-child(3) {
+          background: none;
+          border: none;
+          color: #b12872;
+          font-size: 1.5rem;
+          position: relative;
+          top: -3px;
+          &:hover {
+            background: none;
+            border: none;
+          }
+        }
+      }
+    }
+  }
+  .tab_area {
+    li {
+      margin: 0 5px;
+      button {
+        color: #000;
+        .active {
+          color: #b12872 !important;
+        }
+      }
+    }
+    .tab-content {
+      p {
+        font-size: 14px;
+        color: #777;
+        line-height: 24px;
+      }
+      ul {
+        list-style-type: disc;
+        margin-left: 15px;
+        li {
+          font-size: 15px;
+          color: #5c5c5c;
+          line-height: 24px;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}
