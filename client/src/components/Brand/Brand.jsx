@@ -21,7 +21,7 @@ const Brand = () => {
 
   return (
     <div className="table_area">
-      <BrandModal show={modal} onHide={() => setModal(false)} />
+      <BrandModal setModal={setModal} show={modal} onHide={() => setModal(false)} />
       <div className="table_header d-flex justify-content-between">
         <h3 className="fw-bold text-uppercase fs-4">Brands</h3>
         <Button variant="success" className="fw-semibold mb-3" onClick={() => setModal(true)}>
@@ -41,7 +41,7 @@ const Brand = () => {
           </thead>
           <tbody>
             {loading && 'Im loading...'}
-            {brands &&
+            {brands ? (
               brands.map(({ name, slug, photo }, index) => {
                 return (
                   <tr key={index}>
@@ -70,7 +70,14 @@ const Brand = () => {
                     </td>
                   </tr>
                 );
-              })}
+              })
+            ) : (
+              <tr>
+                <td colSpan={5} className="text-center ">
+                  <span className="text-danger fw-semibold">Have you added brand?</span> Click the button to add.
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
       </div>

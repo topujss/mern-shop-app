@@ -8,7 +8,6 @@ const brandSchema = Schema(
       trim: true,
     },
     slug: {
-      unique: true,
       type: String,
       required: true,
       trim: true,

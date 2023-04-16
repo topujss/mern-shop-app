@@ -3,7 +3,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { createBrand } from '../../redux/shop/actions.js';
 
-const BrandModal = ({ show, onHide }) => {
+const BrandModal = ({ show, onHide, setModal }) => {
   const [input, setInput] = useState('');
   const [logo, setLogo] = useState(null);
 
@@ -25,7 +25,7 @@ const BrandModal = ({ show, onHide }) => {
     form_data.append('brand_photo', logo);
 
     // send data to the server using axios req
-    dispatch(createBrand(form_data));
+    dispatch(createBrand({ data: form_data, setModal, setInput, setLogo }));
   };
   return (
     <Modal show={show} onHide={onHide} aria-labelledby="contained-modal-title-vcenter" centered>
