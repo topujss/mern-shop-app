@@ -31,10 +31,10 @@ app.use(cors());
 app.use(express.static('api/public'));
 
 // route prefix
-app.use(process.env.API_PREFIX, productRoute);
 app.use(process.env.API_PREFIX, categoryRoute);
 app.use(process.env.API_PREFIX, brandRoute);
 app.use(process.env.API_PREFIX, tagRoute);
+app.use(process.env.API_PREFIX, productRoute);
 
 app.use(serverError);
 

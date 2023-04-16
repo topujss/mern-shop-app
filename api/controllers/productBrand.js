@@ -1,4 +1,5 @@
 import Brand from '../models/Brand.js';
+import { slugify } from '../helper/slugify.js';
 
 /**
  * @function getAllBrand
@@ -20,13 +21,12 @@ export const getAllProductBrand = async (req, res, next) => {
  * @function createProductBrand
  * you can create a single brand
  */
-export const createProductBrand = async (req, res) => {
+export const createProductBrand = async (req, res, next) => {
   try {
-    const { brand, slug } = req.body;
-    console.log(req.file);
+    const { name } = req.body;
     const data = await Brand.create({
-      brand,
-      slug,
+      name,
+      slug: slugify(name),
       photo: req.file.filename,
     });
     res.status(200).json({
@@ -34,7 +34,7 @@ export const createProductBrand = async (req, res) => {
       msg: 'brand created',
     });
   } catch (error) {
-    errMsg(error);
+    next(error);
   }
 };
 

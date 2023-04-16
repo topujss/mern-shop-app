@@ -1,3 +1,3 @@
-export const slugify = (str) => {
-  return str.toLowerCase().replace(/[^\w]/g, '-');
+export const slugify = (name) => {
+  return name.replace(/\s+/g, '-').toLowerCase();
 };
