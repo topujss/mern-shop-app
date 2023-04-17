@@ -24,6 +24,8 @@ export const getAllProductBrand = async (req, res, next) => {
 export const createProductBrand = async (req, res, next) => {
   try {
     const { name } = req.body;
+    console.log(req.body);
+    console.log(name);
     const data = await Brand.create({
       name,
       slug: slugify(name),
@@ -33,6 +35,7 @@ export const createProductBrand = async (req, res, next) => {
       brand: data,
       msg: 'brand created',
     });
+    console.log(req.body);
   } catch (error) {
     next(error);
   }
@@ -61,7 +64,7 @@ export const getSingleProductBrand = async (req, res, next) => {
  * @function deleteProductBrand
  * delete a single product brand by id
  */
-export const deleteProductBrand = async (req, res) => {
+export const deleteProductBrand = async (req, res, next) => {
   try {
     const { id } = req.params;
     await Brand.findByIdAndDelete(id);
@@ -69,7 +72,7 @@ export const deleteProductBrand = async (req, res) => {
       msg: 'product brand deleted',
     });
   } catch (error) {
-    errMsg(error);
+    next(error);
   }
 };
 

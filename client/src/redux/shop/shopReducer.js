@@ -1,4 +1,10 @@
-import { CREATE_BRAND_SUCCESS, GET_BRAND_FAILED, GET_BRAND_REQ, GET_BRAND_SUCCESS } from './actionTypes';
+import {
+  CREATE_BRAND_SUCCESS,
+  DELETE_BRAND_SUCCESS,
+  GET_BRAND_FAILED,
+  GET_BRAND_REQ,
+  GET_BRAND_SUCCESS,
+} from './actionTypes';
 import initialState from './initState';
 
 // create a shop reducer
@@ -29,6 +35,12 @@ const shopReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         brands: [...state.brands, payload],
+      };
+
+    case DELETE_BRAND_SUCCESS:
+      return {
+        ...state,
+        brands: [state.brands.filter((d) => d._id !== payload)],
       };
 
     default:

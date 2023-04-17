@@ -2,13 +2,16 @@ import axios from 'axios';
 import {
   CREATE_BRAND_FAILED,
   CREATE_BRAND_SUCCESS,
+  DELETE_BRAND_FAILED,
+  DELETE_BRAND_SUCCESS,
   GET_BRAND_FAILED,
   GET_BRAND_REQ,
   GET_BRAND_SUCCESS,
 } from './actionTypes';
 
 /**
- * @Request get all brand data
+ * @param get
+ * @function getAllBrands
  * @description by axios get request using thunk-middleware
  */
 export const getAllBrands = () => async (dispatch) => {
@@ -28,8 +31,9 @@ export const getAllBrands = () => async (dispatch) => {
 };
 
 /**
- * @Request POST brand data
- * @description by axios POST request using thunk-middleware
+ * @param post
+ * @function createBrand
+ * @description using axios delete request using thunk-middleware
  */
 export const createBrand =
   ({ data, setModal, setInput, setLogo }) =>
@@ -50,3 +54,23 @@ export const createBrand =
       dispatch({ type: CREATE_BRAND_FAILED, payload: err.message });
     }
   };
+
+/**
+ * @param id
+ * @function deleteBrand
+ * @description by id using axios delete request using thunk-middleware
+ */
+export const deleteBrand = (id) => async (dispatch) => {
+  try {
+    await axios
+      .delete(`http://localhost:5050/api/v1/product/brand/${id}`)
+      .then((res) => {
+        dispatch({ type: DELETE_BRAND_SUCCESS, payload: id });
+      })
+      .catch((error) => {
+        dispatch({ type: DELETE_BRAND_FAILED, payload: error.message });
+      });
+  } catch (error) {
+    dispatch({ type: DELETE_BRAND_FAILED, payload: error.message });
+  }
+};

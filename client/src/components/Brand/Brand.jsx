@@ -5,19 +5,26 @@ import { SlTrash } from 'react-icons/sl';
 
 // bootstrap
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 
 // page
 import BrandModal from './BrandModal';
+import { deleteBrand } from '../../redux/shop/actions';
 
 // react
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Brand = () => {
   const [modal, setModal] = useState(false);
   const [status, setStatus] = useState(false);
 
+  const dispatch = useDispatch();
   const { brands, loading } = useSelector((state) => state.shop);
+
+  const handleDelAlert = (id) => {
+    dispatch(deleteBrand(id))
+  };
 
   return (
     <div className="table_area">
@@ -41,43 +48,42 @@ const Brand = () => {
           </thead>
           <tbody>
             {loading && 'Im loading...'}
-            {brands ? (
-              brands.map(({ name, slug, photo }, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{name}</td>
-                    <td>
-                      <img style={{ width: '50px' }} src={`http://localhost:5050/brands/${photo}`} alt="" />
-                    </td>
-                    <td>
-                      <Form.Switch
-                        type="switch"
-                        label={status ? 'Published' : 'Unpublished'}
-                        checked={status}
-                        onClick={() => setStatus(!status)}
-                      />
-                    </td>
-                    <td>
-                      <ButtonGroup size="sm">
-                        <Button className="btn-warning">
-                          <FiEdit3 />
-                        </Button>
-                        <Button className="btn-danger">
-                          <SlTrash />
-                        </Button>
-                      </ButtonGroup>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td colSpan={5} className="text-center ">
-                  <span className="text-danger fw-semibold">Have you added brand?</span> Click the button to add.
-                </td>
-              </tr>
-            )}
+            {brands.map(({ name, photo, _id }, index) => {
+              console.log(name);
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{name}</td>
+                  <td>
+                    <img style={{ width: '50px' }} src={`http://localhost:5050/brands/${photo}`} alt="" />
+                  </td>
+                  <td>
+                    <Form.Switch
+                      type="switch"
+                      label={status ? 'Published' : 'Unpublished'}
+                      defaultChecked={status}
+                      onClick={() => setStatus(!status)}
+                    />
+                  </td>
+                  <td>
+                    <ButtonGroup size="sm">
+                      <Button className="btn-warning">
+                        <FiEdit3 />
+                      </Button>
+                      <Button className="btn-danger" onClick={handleDelAlert(_id)}>
+                        <SlTrash />
+                      </Button>
+                    </ButtonGroup>
+                  </td>
+                </tr>
+              );
+            })}
+            {/* // If there is no brand show this
+            // <tr>
+            //   <td colSpan={5} className="text-center ">
+            //     <span className="text-danger fw-semibold">Have you added brand?</span> Click the button to add.
+            //   </td>
+            // </tr> */}
           </tbody>
         </Table>
       </div>
