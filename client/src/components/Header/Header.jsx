@@ -23,19 +23,15 @@ export default function Header() {
               <NavLink to="/">Shop</NavLink>
             </Nav.Item>
             <Nav.Item as="li">
-              <Link to="/cart" eventkey="1">
-                Cart
-              </Link>
+              <Link to="/cart">Cart</Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Link as="a" to="/wish" eventKey="2">
+              <Link as="a" to="/wish">
                 Wish
               </Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Link to="/admin" eventKey="3">
-                Admin
-              </Link>
+              <Link to="/admin">Admin</Link>
             </Nav.Item>
           </Nav>
         </Row>

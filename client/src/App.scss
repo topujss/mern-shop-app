@@ -15,3 +15,15 @@ a {
 input:focus {
   outline: none;
 }
+
+.form-switch input {
+  height: 25px;
+  width: 40px !important;
+  &:checked {
+    background-color: darkgreen;
+    border-color: darkgreen;
+  }
+  &:focus {
+    box-shadow: none;
+  }
+}

@@ -22,4 +22,6 @@ router.route('/brand').get(getAllProductBrand).post(brandMulter, createProductBr
  * get, put and delete brand route using params id
  */
 router.route('/brand/:id').get(getSingleProductBrand).put(editProductBrand).delete(deleteProductBrand);
+
+// router.patch('brand-status', statusUpdate);
 export default router;

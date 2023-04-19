@@ -24,8 +24,6 @@ export const getAllProductBrand = async (req, res, next) => {
 export const createProductBrand = async (req, res, next) => {
   try {
     const { name } = req.body;
-    console.log(req.body);
-    console.log(name);
     const data = await Brand.create({
       name,
       slug: slugify(name),
@@ -35,7 +33,6 @@ export const createProductBrand = async (req, res, next) => {
       brand: data,
       msg: 'brand created',
     });
-    console.log(req.body);
   } catch (error) {
     next(error);
   }
@@ -92,3 +89,27 @@ export const editProductBrand = async (req, res, next) => {
     next(error);
   }
 };
+
+// /**
+//  * @param id
+//  * @function editProductBrand
+//  * edit a single product brand by id
+//  */
+// export const statusUpdate = async (req, res, next) => {
+//   try {
+//     // get id from params
+//     const { id } = req.params;
+
+//     // get status from body
+//     const { status } = req.body;
+
+//     // send data to update data from server
+//     const brand = await Brand.findByIdAndUpdate(id, { status }, { new: true });
+//     res.status(200).json({
+//       brand,
+//       message: 'Brand status updated',
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };

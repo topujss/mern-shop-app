@@ -2,8 +2,8 @@ import { RouterProvider } from 'react-router-dom';
 import publicRoute from './routes/publicRoute';
 import './App.scss';
 import { useEffect } from 'react';
-import { getAllBrands } from './redux/shop/actions';
 import { useDispatch } from 'react-redux';
+import { getAllBrands } from './redux/shop/actions';
 
 export default function App() {
   const dispatch = useDispatch();
