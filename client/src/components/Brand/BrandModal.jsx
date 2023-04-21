@@ -1,10 +1,9 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { createBrand } from '../../redux/shop/actions';
 
-const BrandModal = ({ show, onHide }) => {
+const BrandModal = ({ show, onHide, setModal }) => {
   const [input, setInput] = useState('');
   const [logo, setLogo] = useState(null);
 
@@ -13,8 +12,7 @@ const BrandModal = ({ show, onHide }) => {
     setLogo(e.target.files[0]);
   };
 
-    const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
 
   // create brand form data
   const handleCreateBrand = async (e) => {
@@ -26,7 +24,7 @@ const BrandModal = ({ show, onHide }) => {
     form_data.append('brand_photo', logo);
 
     // call axios to test the data
-    dispatch(createBrand(form_data));
+    dispatch(createBrand({ data: form_data, setModal, setInput, setLogo }));
   };
 
   return (
@@ -42,7 +40,7 @@ const BrandModal = ({ show, onHide }) => {
           </Form.Group>
           <Form.Group controlId="formFile" className="mb-3">
             <Form.Label>Brand logo</Form.Label>
-            <Form.Control type="file" onChange={handleFileUpload} className="" />
+            <Form.Control required type="file" onChange={handleFileUpload} className="" />
             {logo && (
               <img className="w-100 object-fit-cover rounded p-2 pt-4" src={URL.createObjectURL(logo)} alt="" />
             )}

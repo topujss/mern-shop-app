@@ -1,7 +1,11 @@
 import axios from 'axios';
 import {
+  BRAND_STATUS_FULFILL,
+  BRAND_STATUS_REJECTED,
   CREATE_BRAND_FULFILL,
   CREATE_BRAND_REJECTED,
+  DELETE_BRAND_FULFILL,
+  DELETE_BRAND_REJECTED,
   GET_BRAND_FULFILL,
   GET_BRAND_REJECTED,
   GET_BRAND_REQ,
@@ -34,17 +38,67 @@ export const getAllBrands = () => async (dispatch) => {
  * @function createBrand
  * @description send create brand request using thunk-middleware
  */
-export const createBrand = (data) => async (dispatch) => {
+export const createBrand =
+  ({ data, setModal, setInput, setLogo }) =>
+  async (dispatch) => {
+    try {
+      await axios
+        .post(api_link, data)
+        .then((res) => {
+          dispatch({ type: CREATE_BRAND_FULFILL, payload: res.data.brand });
+          setModal(false);
+          setInput('');
+          setLogo(null);
+        })
+        .catch((error) => {
+          dispatch({ type: CREATE_BRAND_REJECTED, payload: error.message });
+        });
+    } catch (error) {
+      dispatch({ type: CREATE_BRAND_REJECTED, payload: error.message });
+    }
+  };
+
+/**
+ * @param delete
+ * @function deleteBrand
+ * @desc Send request to server to delete brand using thunk-middleware
+ */
+export const deleteBrand = (id) => async (dispatch) => {
   try {
     await axios
-      .post(api_link, data)
+      .delete(`${api_link}/${id}`)
       .then((res) => {
-        dispatch({ type: CREATE_BRAND_FULFILL, payload: res.data.brand });
+        dispatch({ type: DELETE_BRAND_FULFILL, payload: id });
       })
       .catch((error) => {
-        dispatch({ type: CREATE_BRAND_REJECTED, payload: error.message });
+        dispatch({ type: DELETE_BRAND_REJECTED, payload: error.message });
       });
   } catch (error) {
-    dispatch({ type: CREATE_BRAND_REJECTED, payload: error.message });
+    dispatch({ type: DELETE_BRAND_REJECTED, payload: error.message });
   }
 };
+
+/**
+ * @param patch
+ * @function brandStatusUpdate
+ * @desc Send request to server to update brand status using thunk-middleware
+ */
+export const brandStatusUpdate =
+  ({ id, status }) =>
+  async (dispatch) => {
+    console.log(id, status);
+    try {
+      await axios
+        .patch(`http://localhost:5050/api/v1/product/brand-status/${id}`, { status })
+        .then((res) => {
+          console.log(res.data.brand);
+          dispatch({ type: BRAND_STATUS_FULFILL, payload: res.data.brand });
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch({ type: BRAND_STATUS_REJECTED, payload: error.message });
+        });
+    } catch (error) {
+      dispatch({ type: BRAND_STATUS_REJECTED, payload: error.message });
+    }
+  };

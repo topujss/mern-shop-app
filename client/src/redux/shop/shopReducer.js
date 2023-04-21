@@ -1,4 +1,11 @@
-import { CREATE_BRAND_FULFILL, GET_BRAND_FULFILL, GET_BRAND_REJECTED, GET_BRAND_REQ } from './actionTypes';
+import {
+  BRAND_STATUS_FULFILL,
+  CREATE_BRAND_FULFILL,
+  DELETE_BRAND_FULFILL,
+  GET_BRAND_FULFILL,
+  GET_BRAND_REJECTED,
+  GET_BRAND_REQ,
+} from './actionTypes';
 import initialState from './initState';
 
 // create a shop reducer
@@ -29,6 +36,20 @@ const shopReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         brands: [...state.brands, payload],
+      };
+
+    case DELETE_BRAND_FULFILL:
+      return {
+        ...state,
+        brands: state.brands.filter((d) => d._id !== payload),
+      };
+
+    case BRAND_STATUS_FULFILL:
+      // Now, find index of the brands array and match it with the current payload id. Finally, send that index to payload
+      state.brands[state.brands.findIndex((getIndex) => getIndex._id === payload._id)] = payload;
+      return {
+        ...state,
+        brands: state.brands,
       };
 
     default:

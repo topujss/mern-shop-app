@@ -90,26 +90,26 @@ export const editProductBrand = async (req, res, next) => {
   }
 };
 
-// /**
-//  * @param id
-//  * @function editProductBrand
-//  * edit a single product brand by id
-//  */
-// export const statusUpdate = async (req, res, next) => {
-//   try {
-//     // get id from params
-//     const { id } = req.params;
+/**
+ * @param id
+ * @function editProductBrand
+ * edit a single product brand by id
+ */
+export const statusUpdate = async (req, res, next) => {
+  try {
+    // get id from params
+    const { id } = req.params;
 
-//     // get status from body
-//     const { status } = req.body;
+    // get status from body
+    const { status } = req.body;
 
-//     // send data to update data from server
-//     const brand = await Brand.findByIdAndUpdate(id, { status }, { new: true });
-//     res.status(200).json({
-//       brand,
-//       message: 'Brand status updated',
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    // send data to update data from server
+    const brand = await Brand.findByIdAndUpdate(id, { status }, { new: true });
+    res.status(200).json({
+      brand,
+      message: 'Brand status updated',
+    });
+  } catch (error) {
+    next(error);
+  }
+};

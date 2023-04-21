@@ -5,6 +5,7 @@ import {
   editProductBrand,
   getAllProductBrand,
   getSingleProductBrand,
+  statusUpdate,
 } from '../controllers/productBrand.js';
 import { brandMulter } from '../utils/multer.js';
 
@@ -23,5 +24,5 @@ router.route('/brand').get(getAllProductBrand).post(brandMulter, createProductBr
  */
 router.route('/brand/:id').get(getSingleProductBrand).put(editProductBrand).delete(deleteProductBrand);
 
-// router.patch('brand-status', statusUpdate);
+router.patch('/brand-status/:id', statusUpdate);
 export default router;
