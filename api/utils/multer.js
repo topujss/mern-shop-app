@@ -21,7 +21,7 @@ const storage = diskStorage({
         break;
 
       default:
-        cb(null, 'api/public/products')
+        cb(null, 'api/public/products');
     }
   },
 });

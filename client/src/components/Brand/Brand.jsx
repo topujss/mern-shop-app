@@ -7,12 +7,27 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { brandStatusUpdate, deleteBrand } from '../../redux/shop/actions';
 import swal from 'sweetalert';
+import BrandEditModal from './BrandEditModal';
 
 const Brand = () => {
   const [modal, setModal] = useState(false);
+  const [editModal, setEditModal] = useState({
+    show: false,
+    editId: null,
+  });
   const { brands, loading } = useSelector((s) => s.shop);
 
   const dispatch = useDispatch();
+
+  // status update handler
+  const handleStatus = (id, status) => {
+    dispatch(brandStatusUpdate({ id, status: !status }));
+  };
+
+  // edit handler
+  const handleEdit = (id) => {
+    setEditModal({ show: true, editId: id });
+  };
 
   // to confirm before delete
   const handleDelete = (id) => {
@@ -34,11 +49,6 @@ const Brand = () => {
     });
   };
 
-  // status update handler
-  const handleStatus = (id, status) => {
-    dispatch(brandStatusUpdate({ id, status: !status }));
-  };
-
   return (
     <div className="table_area">
       <BrandModal setModal={setModal} show={modal} onHide={() => setModal(false)} />
@@ -49,7 +59,7 @@ const Brand = () => {
         </Button>
       </div>
       <div className="table_list me-5" id="myTable">
-        <Table striped hover className="align-middle">
+        <Table striped hover className="align-middle" variant="dark">
           <thead>
             <tr>
               <th>#</th>
@@ -82,7 +92,7 @@ const Brand = () => {
                   </td>
                   <td>
                     <ButtonGroup size="sm">
-                      <Button className="btn-warning me-1">
+                      <Button className="btn-warning me-1" onClick={() => handleEdit(brand._id)}>
                         <FiEdit3 />
                       </Button>
                       <Button className="btn-danger" onClick={() => handleDelete(brand._id)}>
@@ -93,7 +103,6 @@ const Brand = () => {
                 </tr>
               );
             })}
-
             {/* // If there is no brand show this
             // <tr>
             //   <td colSpan={5} className="text-center ">
@@ -103,6 +112,12 @@ const Brand = () => {
           </tbody>
         </Table>
       </div>
+      <BrandEditModal
+        setEditModal={setEditModal}
+        show={editModal.show}
+        editId={editModal.editId}
+        onHide={() => setEditModal({ show: false })}
+      />
     </div>
   );
 };

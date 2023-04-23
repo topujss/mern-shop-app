@@ -76,14 +76,21 @@ export const deleteProductBrand = async (req, res, next) => {
 /**
  * @param id
  * @function editProductBrand
- * edit a single product brand by id
  */
 export const editProductBrand = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { brand, slug, photo } = req.body;
+    const { name, photo } = req.body;
 
-    await Brand.findByIdAndUpdate(id, { brand, slug, photo }, { new: true });
+    await Brand.findByIdAndUpdate(
+      id,
+      {
+        name,
+        slug: slugify(name),
+        photo,
+      },
+      { new: true }
+    );
     res.status(200).json({ msg: 'product brand updated' });
   } catch (error) {
     next(error);

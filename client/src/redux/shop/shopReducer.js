@@ -1,5 +1,6 @@
 import {
   BRAND_STATUS_FULFILL,
+  BRAND_UPDATE_FULFILL,
   CREATE_BRAND_FULFILL,
   DELETE_BRAND_FULFILL,
   GET_BRAND_FULFILL,
@@ -51,6 +52,13 @@ const shopReducer = (state = initialState, { type, payload }) => {
         ...state,
         brands: state.brands,
       };
+    
+    case BRAND_UPDATE_FULFILL: 
+      state.brands[state.brands.findIndex(findId => findId._id === payload._id)] = payload;
+      return {
+        ...state,
+        brands: state.brands
+      }
 
     default:
       return state;

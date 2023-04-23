@@ -2,6 +2,8 @@ import axios from 'axios';
 import {
   BRAND_STATUS_FULFILL,
   BRAND_STATUS_REJECTED,
+  BRAND_UPDATE_FULFILL,
+  BRAND_UPDATE_REJECTED,
   CREATE_BRAND_FULFILL,
   CREATE_BRAND_REJECTED,
   DELETE_BRAND_FULFILL,
@@ -86,12 +88,10 @@ export const deleteBrand = (id) => async (dispatch) => {
 export const brandStatusUpdate =
   ({ id, status }) =>
   async (dispatch) => {
-    console.log(id, status);
     try {
       await axios
         .patch(`http://localhost:5050/api/v1/product/brand-status/${id}`, { status })
         .then((res) => {
-          console.log(res.data.brand);
           dispatch({ type: BRAND_STATUS_FULFILL, payload: res.data.brand });
         })
         .catch((error) => {
@@ -100,5 +100,34 @@ export const brandStatusUpdate =
         });
     } catch (error) {
       dispatch({ type: BRAND_STATUS_REJECTED, payload: error.message });
+    }
+  };
+
+/**
+ * @param patch
+ * @function brandUpdate
+ * @desc Send request to server to update brand using thunk-middleware
+ */
+export const brandUpdate =
+  ({ id, name, photo, setEditModal }) =>
+  async (dispatch) => {
+    try {
+      await axios
+        .put(`http://localhost:5050/api/v1/product/brand/${id}`, {
+          id,
+          name,
+          photo,
+        })
+        .then((res) => {
+          console.log(res);
+          dispatch({ type: BRAND_UPDATE_FULFILL, payload: res.data?.brand });
+          setEditModal(() => (prevState) => ({ ...prevState, show: false }));
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch({ type: BRAND_UPDATE_REJECTED, payload: error.message });
+        });
+    } catch (error) {
+      dispatch({ type: BRAND_UPDATE_REJECTED, payload: error.message });
     }
   };
