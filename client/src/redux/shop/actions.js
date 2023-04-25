@@ -104,23 +104,19 @@ export const brandStatusUpdate =
   };
 
 /**
- * @param patch
+ * @param put
  * @function brandUpdate
  * @desc Send request to server to update brand using thunk-middleware
  */
 export const brandUpdate =
-  ({ id, name, photo, setEditModal }) =>
+  ({ data, id, setEditModal }) =>
   async (dispatch) => {
     try {
       await axios
-        .put(`http://localhost:5050/api/v1/product/brand/${id}`, {
-          id,
-          name,
-          photo,
-        })
+        .put(`http://localhost:5050/api/v1/product/brand/${id}`, data)
         .then((res) => {
           console.log(res);
-          dispatch({ type: BRAND_UPDATE_FULFILL, payload: res.data?.brand });
+          dispatch({ type: BRAND_UPDATE_FULFILL, payload: res.data.brand });
           setEditModal(() => (prevState) => ({ ...prevState, show: false }));
         })
         .catch((error) => {

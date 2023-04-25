@@ -87,7 +87,7 @@ export const editProductBrand = async (req, res, next) => {
       {
         name,
         slug: slugify(name),
-        photo,
+        photo: req.file?.filename ? req.file?.filename : photo,
       },
       { new: true }
     );

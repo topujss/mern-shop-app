@@ -29,15 +29,15 @@ const BrandEditModal = ({ show, onHide, editId, setEditModal }) => {
   const handleUpdateBrand = (e) => {
     e.preventDefault();
 
+    // create form data for photo upload
+    const form_data = new FormData();
+
+    form_data.append('name', edit?.name);
+    form_data.append('photo', edit?.photo);
+    form_data.append('brand_photo', logo);
+
     // update brand redux way
-    dispatch(
-      brandUpdate({
-        id: editId,
-        name: edit?.name,
-        photo: edit?.photo,
-        setEditModal,
-      })
-    );
+    dispatch(brandUpdate({ data: form_data, id: editId, setEditModal }));
   };
 
   return (
