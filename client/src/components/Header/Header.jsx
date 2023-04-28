@@ -31,7 +31,7 @@ export default function Header() {
               </Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Link to="/admin/brand">Admin</Link>
+              <Link to="/admin/tag">Admin</Link>
             </Nav.Item>
           </Nav>
         </Row>

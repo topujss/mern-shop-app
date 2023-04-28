@@ -6,14 +6,20 @@ import {
   BRAND_UPDATE_REJECTED,
   CREATE_BRAND_FULFILL,
   CREATE_BRAND_REJECTED,
+  CREATE_TAG_FULFILL,
+  CREATE_TAG_REJECTED,
   DELETE_BRAND_FULFILL,
   DELETE_BRAND_REJECTED,
+  DELETE_TAG_FULFILL,
+  DELETE_TAG_REJECTED,
   GET_BRAND_FULFILL,
   GET_BRAND_REJECTED,
   GET_BRAND_REQ,
+  GET_TAG_FULFILL,
+  GET_TAG_REJECTED,
 } from './actionTypes';
 
-let api_link = `http://localhost:5050/api/v1/product/brand`;
+let api_link = `http://localhost:5050/api/v1/product/`;
 /**
  * @param get
  * @function getAllBrands
@@ -23,7 +29,7 @@ export const getAllBrands = () => async (dispatch) => {
   try {
     dispatch({ type: GET_BRAND_REQ });
     await axios
-      .get(api_link)
+      .get(api_link + 'brand')
       .then((res) => {
         dispatch({ type: GET_BRAND_FULFILL, payload: res.data.brands });
       })
@@ -45,7 +51,7 @@ export const createBrand =
   async (dispatch) => {
     try {
       await axios
-        .post(api_link, data)
+        .post(api_link + 'brand', data)
         .then((res) => {
           dispatch({ type: CREATE_BRAND_FULFILL, payload: res.data.brand });
           setModal(false);
@@ -68,7 +74,7 @@ export const createBrand =
 export const deleteBrand = (id) => async (dispatch) => {
   try {
     await axios
-      .delete(`${api_link}/${id}`)
+      .delete(`${api_link}brand/${id}`)
       .then((res) => {
         dispatch({ type: DELETE_BRAND_FULFILL, payload: id });
       })
@@ -90,7 +96,7 @@ export const brandStatusUpdate =
   async (dispatch) => {
     try {
       await axios
-        .patch(`http://localhost:5050/api/v1/product/brand-status/${id}`, { status })
+        .patch(`${api_link}/brand-status/${id}`, { status })
         .then((res) => {
           dispatch({ type: BRAND_STATUS_FULFILL, payload: res.data.brand });
         })
@@ -113,7 +119,7 @@ export const brandUpdate =
   async (dispatch) => {
     try {
       await axios
-        .put(`http://localhost:5050/api/v1/product/brand/${id}`, data)
+        .put(`${api_link}/brand/${id}`, data)
         .then((res) => {
           console.log(res);
           dispatch({ type: BRAND_UPDATE_FULFILL, payload: res.data.brand });
@@ -127,3 +133,88 @@ export const brandUpdate =
       dispatch({ type: BRAND_UPDATE_REJECTED, payload: error.message });
     }
   };
+
+/**
+ * Tag start
+ * @param get
+ * @function getAllTags
+ * @description by axios get request using thunk-middleware
+ */
+export const getAllTags = () => async (dispatch) => {
+  try {
+    await axios
+      .get(api_link + 'tag')
+      .then((res) => {
+        dispatch({ type: GET_TAG_FULFILL, payload: res.data.tags });
+      })
+      .catch((error) => {
+        dispatch({ type: GET_TAG_REJECTED, payload: error.message });
+      });
+  } catch (error) {
+    dispatch({ type: GET_TAG_REJECTED, payload: error.message });
+  }
+};
+
+/**
+ * @param patch
+ * @function tagStatusUpdate__NotDone
+ * @desc Send request to server to update tag status using thunk-middleware
+ */
+export const tagStatusUpdate =
+  ({ id, status }) =>
+  async (dispatch) => {
+    try {
+      await axios
+        .patch(`${api_link}/tag-status/${id}`, { status })
+        .then((res) => {
+          dispatch({ type: BRAND_STATUS_FULFILL, payload: res.data.brand });
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch({ type: BRAND_STATUS_REJECTED, payload: error.message });
+        });
+    } catch (error) {
+      dispatch({ type: BRAND_STATUS_REJECTED, payload: error.message });
+    }
+  };
+
+/**
+ * @param post
+ * @function createTag
+ * @description send create tag request using thunk-middleware
+ */
+export const createTag = (input) => async (dispatch) => {
+  try {
+    console.log(input);
+    await axios
+      .post(api_link + 'tag', { name: input })
+      .then((res) => {
+        dispatch({ type: CREATE_TAG_FULFILL, payload: res.data.tag });
+      })
+      .catch((error) => {
+        dispatch({ type: CREATE_TAG_REJECTED, payload: error.message });
+      });
+  } catch (error) {
+    dispatch({ type: CREATE_TAG_REJECTED, payload: error.message });
+  }
+};
+
+/**
+ * @param delete
+ * @function deleteTag
+ * @desc Send request to server to delete tag using thunk-middleware
+ */
+export const deleteTag = (id) => async (dispatch) => {
+  try {
+    await axios
+      .delete(`${api_link}tag/${id}`)
+      .then((res) => {
+        dispatch({ type: DELETE_TAG_FULFILL, payload: id }); // send this id to match with link id to delete single tag
+      })
+      .catch((error) => {
+        dispatch({ type: DELETE_TAG_REJECTED, payload: error.message });
+      });
+  } catch (error) {
+    dispatch({ type: DELETE_TAG_REJECTED, payload: error.message });
+  }
+};

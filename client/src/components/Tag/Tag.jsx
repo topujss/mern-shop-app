@@ -1,7 +1,141 @@
-import React from 'react';
+import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { FiEdit3 } from 'react-icons/fi';
+import { SlTrash } from 'react-icons/sl';
+import GlobalModal from '../GlobalModal/GlobalModal';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createTag, deleteTag } from '../../redux/shop/actions';
+import swal from 'sweetalert';
 
 const Tag = () => {
-  return <div>Tag</div>;
+  const [modal, setModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [input, setInput] = useState('');
+  const [editInput, setEditInput] = useState('');
+  const dispatch = useDispatch();
+
+  const { tags } = useSelector((s) => s.shop);
+
+  const handleStatus = (id, status) => {};
+
+  const handleCreateSubmit = (e) => {
+    e.preventDefault();
+
+    // call axios to test the data
+    dispatch(createTag(input));
+  };
+
+  const handleEdit = (id) => {
+    // find that data by matching ID that you got
+    const edit_data = tags?.find((d) => d._id === id);
+
+    // Now, set input data to useState
+    setEditInput(edit_data);
+
+    // make edit modal visible
+    setEditModal(true);
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    console.log(e);
+  };
+
+  const handleDelete = (id) => {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this imaginary file!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then((del) => {
+      if (del) {
+        dispatch(deleteTag(id));
+        swal('Poof! Your imaginary file has been deleted!', {
+          icon: 'success',
+        });
+      } else {
+        swal('Your imaginary file is safe!');
+      }
+    });
+  };
+  return (
+    <div className="table_area">
+      <GlobalModal show={modal} onHide={() => setModal(false)} title={'Add New Tag'}>
+        <Form onSubmit={handleCreateSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Tag name</Form.Label>
+            <Form.Control type="text" value={input} onChange={(e) => setInput(e.target.value)} />
+          </Form.Group>
+          <Button variant="success" type="submit">
+            Add tag
+          </Button>
+        </Form>
+      </GlobalModal>
+      <div className="table_header d-flex justify-content-between">
+        <h3 className="fw-bold text-uppercase fs-4">tag list</h3>
+        <Button variant="success" className="fw-semibold mb-3 text-capitalize" onClick={() => setModal(true)}>
+          <AiOutlinePlus /> create new tag
+        </Button>
+      </div>
+      <div className="table_list me-5" id="myTable">
+        <Table hover className="align-middle">
+          <thead className="text-white" style={{ background: '#B12872' }}>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Slug</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tags.map(({ name, slug, status, _id }, index) => {
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{name}</td>
+                  <td>{slug}</td>
+                  <td>
+                    <Form.Switch type="switch" checked={status} onChange={() => handleStatus(_id, status)} />
+                  </td>
+                  <td>
+                    <ButtonGroup size="sm" onClick={() => handleEdit(_id)}>
+                      <Button className="btn-warning me-1">
+                        <FiEdit3 />
+                      </Button>
+                      <Button className="btn-danger" onClick={() => handleDelete(_id)}>
+                        <SlTrash />
+                      </Button>
+                    </ButtonGroup>
+                  </td>
+                </tr>
+              );
+            })}
+
+            {/* // If there is no brand show this
+            <tr>
+              <td colSpan={5} className="text-center ">
+                <span className="text-danger fw-semibold">Have you added brand?</span> Click the button to add.
+              </td>
+            </tr> */}
+          </tbody>
+        </Table>
+      </div>
+      <GlobalModal show={editModal} onHide={() => setEditModal(false)} title={'Edit existing Tag'}>
+        <Form onSubmit={handleEditSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Tag name</Form.Label>
+            <Form.Control type="text" value={'input'} />
+          </Form.Group>
+          <Button variant="success" type="submit">
+            Add tag
+          </Button>
+        </Form>
+      </GlobalModal>
+    </div>
+  );
 };
 
 export default Tag;

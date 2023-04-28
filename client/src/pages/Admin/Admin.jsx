@@ -1,5 +1,5 @@
 import { Col, Container, Row } from 'react-bootstrap';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
 const Admin = () => {
   return (
@@ -13,30 +13,30 @@ const Admin = () => {
                   <Link className="bg-light fw-normal px-4 py-2 d-block text-info mb-1 text-center" to="/admin">
                     Dashboard
                   </Link>
-                  <Link
+                  <NavLink
                     className="bg-light fw-normal px-4 py-2 text-center d-block text-info mb-1 text-capitalize"
                     to="products"
                   >
                     products
-                  </Link>
-                  <Link
+                  </NavLink>
+                  <NavLink
                     className="bg-light fw-normal px-4 py-2 text-center d-block text-info mb-1 text-capitalize"
                     to="category"
                   >
                     categories
-                  </Link>
-                  <Link
+                  </NavLink>
+                  <NavLink
                     className="bg-light fw-normal px-4 py-2 text-center d-block text-info mb-1 text-capitalize"
                     to="tag"
                   >
                     tags
-                  </Link>
-                  <Link
+                  </NavLink>
+                  <NavLink
                     className="bg-light fw-normal px-4 py-2 text-center d-block text-info mb-1 text-capitalize"
                     to="brand"
                   >
                     brands
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
             </div>

@@ -2,15 +2,13 @@ import { model, Schema } from 'mongoose';
 
 const tagSchema = Schema(
   {
-    tag: {
+    name: {
       type: String,
-      required: true,
-      unique: true,
       trim: true,
     },
     slug: {
+      unique: true,
       type: String,
-      required: true,
       trim: true,
     },
     status: {

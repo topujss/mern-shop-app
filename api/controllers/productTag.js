@@ -1,6 +1,8 @@
+import { slugify } from '../helper/slugify.js';
 import Tag from '../models/Tag.js';
 
 /**
+ * @host get
  * @function getAllTag
  * you can get a list of tags
  */
@@ -17,15 +19,16 @@ export const getAllProductTag = async (req, res, next) => {
 };
 
 /**
+ * @host post
  * @function createProductTag
  * you can create a single tag
  */
 export const createProductTag = async (req, res, next) => {
   try {
-    const { tag, slug } = req.body;
+    const { name } = req.body;
     const data = await Tag.create({
-      tag,
-      slug,
+      name,
+      slug: slugify(name),
     });
     res.status(200).json({
       tag: data,
@@ -37,6 +40,7 @@ export const createProductTag = async (req, res, next) => {
 };
 
 /**
+ * @host get
  * @param id
  * @function getSingleProductTag
  * you can get a single tag by id
@@ -55,6 +59,7 @@ export const getSingleProductTag = async (req, res, next) => {
 };
 
 /**
+ * @host delete
  * @param id
  * @function deleteProductTag
  * delete a single product tag by id
@@ -63,6 +68,7 @@ export const deleteProductTag = async (req, res, next) => {
   try {
     const { id } = req.params;
     await Tag.findByIdAndDelete(id);
+
     res.status(200).json({
       msg: 'product tag deleted',
     });
@@ -79,9 +85,18 @@ export const deleteProductTag = async (req, res, next) => {
 export const editProductTag = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { tag, slug } = req.body;
+    const { name } = req.body;
 
-    const updateData = await Tag.findByIdAndUpdate(id, { tag, slug }, { new: true });
+    const updateData = await Tag.findByIdAndUpdate(
+      id,
+      {
+        name,
+        slug: slugify(name),
+      },
+      {
+        new: true,
+      }
+    );
     res.status(200).json({ updateData, msg: 'product Tag updated' });
   } catch (error) {
     next(error);

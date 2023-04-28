@@ -27,3 +27,11 @@ input:focus {
     box-shadow: none;
   }
 }
+
+.admin_menu a.active {
+  background: #b12872 !important;
+  color: #8dd7bf !important;
+  font-weight: bold !important;
+  word-spacing: 1.1rem !important;
+  transition: all 0.3s ease-in-out !important;
+}

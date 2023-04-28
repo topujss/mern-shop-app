@@ -3,7 +3,7 @@ import { FiEdit3 } from 'react-icons/fi';
 import { SlTrash } from 'react-icons/sl';
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import BrandModal from './BrandModal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { brandStatusUpdate, deleteBrand } from '../../redux/shop/actions';
 import swal from 'sweetalert';
@@ -59,8 +59,8 @@ const Brand = () => {
         </Button>
       </div>
       <div className="table_list me-5" id="myTable">
-        <Table striped hover className="align-middle" variant="dark">
-          <thead>
+        <Table hover className="align-middle">
+          <thead className=" text-white" style={{ background: '#B12872' }}>
             <tr>
               <th>#</th>
               <th>Name</th>

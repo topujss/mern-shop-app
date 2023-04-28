@@ -1,4 +1,6 @@
-// brand get
+/**
+ * brand get
+ */
 export const GET_BRAND_REQ = 'GET_BRAND_REQ';
 export const GET_BRAND_FULFILL = 'GET_BRAND_FULFILL';
 export const GET_BRAND_REJECTED = 'GET_BRAND_REJECTED';
@@ -18,3 +20,17 @@ export const BRAND_STATUS_REJECTED = 'BRAND_STATUS_REJECTED';
 // brand update
 export const BRAND_UPDATE_FULFILL = 'BRAND_UPDATE_FULFILL';
 export const BRAND_UPDATE_REJECTED = 'BRAND_UPDATE_REJECTED';
+
+/**
+ * Tag get
+ */
+export const GET_TAG_FULFILL = 'GET_TAG_FULFILL';
+export const GET_TAG_REJECTED = 'GET_TAG_REJECTED';
+
+// tag create
+export const CREATE_TAG_FULFILL = 'CREATE_TAG_FULFILL';
+export const CREATE_TAG_REJECTED = 'CREATE_TAG_REJECTED';
+
+// tag delete
+export const DELETE_TAG_FULFILL = 'DELETE_TAG_FULFILL';
+export const DELETE_TAG_REJECTED = 'DELETE_TAG_REJECTED';
