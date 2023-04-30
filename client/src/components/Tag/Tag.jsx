@@ -136,6 +136,9 @@ const Tag = () => {
                 <span className="text-danger fw-semibold">Have you added brand?</span> Click the button to add.
               </td>
             </tr> */}
+            {/* google 
+            facebook
+             */}
           </tbody>
         </Table>
       </div>
