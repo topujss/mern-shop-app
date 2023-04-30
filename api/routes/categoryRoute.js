@@ -5,6 +5,7 @@ import {
   editProductCategory,
   getAllProductCategory,
   getSingleProductCategory,
+  statusUpdate,
 } from '../controllers/productCategory.js';
 import { categoryMulter } from '../utils/multer.js';
 
@@ -25,5 +26,6 @@ router.route('/category/:slug').get(getSingleProductCategory);
  * get category route using params id
  */
 router.route('/category/:id').delete(deleteProductCategory).put(editProductCategory);
+router.put('/category/:id', statusUpdate);
 
 export default router;

@@ -5,19 +5,24 @@ import { SlTrash } from 'react-icons/sl';
 import GlobalModal from '../GlobalModal/GlobalModal';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTag, deleteTag } from '../../redux/shop/actions';
+import { createTag, deleteTag, tagStatusUpdate, tagUpdate } from '../../redux/shop/actions';
 import swal from 'sweetalert';
 
 const Tag = () => {
   const [modal, setModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
+  const [editModal, setEditModal] = useState({
+    showEdit: false,
+    dataId: null,
+  });
   const [input, setInput] = useState('');
   const [editInput, setEditInput] = useState('');
   const dispatch = useDispatch();
 
   const { tags } = useSelector((s) => s.shop);
 
-  const handleStatus = (id, status) => {};
+  const handleStatus = (id, status) => {
+    dispatch(tagStatusUpdate({ id, status: !status }));
+  };
 
   const handleCreateSubmit = (e) => {
     e.preventDefault();
@@ -34,12 +39,23 @@ const Tag = () => {
     setEditInput(edit_data);
 
     // make edit modal visible
-    setEditModal(true);
+    setEditModal({
+      showEdit: true,
+      dataId: id,
+    });
   };
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+
+    // return updated input to database
+    dispatch(
+      tagUpdate({
+        data: editInput,
+        setEditModal,
+        id: editModal.dataId,
+      })
+    );
   };
 
   const handleDelete = (id) => {
@@ -101,8 +117,8 @@ const Tag = () => {
                     <Form.Switch type="switch" checked={status} onChange={() => handleStatus(_id, status)} />
                   </td>
                   <td>
-                    <ButtonGroup size="sm" onClick={() => handleEdit(_id)}>
-                      <Button className="btn-warning me-1">
+                    <ButtonGroup size="sm">
+                      <Button className="btn-warning me-1" onClick={() => handleEdit(_id)}>
                         <FiEdit3 />
                       </Button>
                       <Button className="btn-danger" onClick={() => handleDelete(_id)}>
@@ -123,13 +139,21 @@ const Tag = () => {
           </tbody>
         </Table>
       </div>
-      <GlobalModal show={editModal} onHide={() => setEditModal(false)} title={'Edit existing Tag'}>
+      <GlobalModal
+        show={editModal.showEdit}
+        onHide={() => setEditModal({ showEdit: false, dataId: null })}
+        title={'Edit existing Tag'}
+      >
         <Form onSubmit={handleEditSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Tag name</Form.Label>
-            <Form.Control type="text" value={'input'} />
+            <Form.Control
+              type="text"
+              defaultValue={editInput.name}
+              onChange={(e) => setEditInput((prevState) => ({ ...prevState, name: e.target.value }))}
+            />
           </Form.Group>
-          <Button variant="success" type="submit">
+          <Button variant="success" type="submit" className="d-block">
             Add tag
           </Button>
         </Form>

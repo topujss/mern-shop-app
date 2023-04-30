@@ -1,22 +1,29 @@
 import axios from 'axios';
 import {
-  BRAND_STATUS_FULFILL,
-  BRAND_STATUS_REJECTED,
-  BRAND_UPDATE_FULFILL,
-  BRAND_UPDATE_REJECTED,
-  CREATE_BRAND_FULFILL,
-  CREATE_BRAND_REJECTED,
+  GET_BRAND_REQ,
+  GET_BRAND_FULFILL,
+  GET_BRAND_REJECTED,
   CREATE_TAG_FULFILL,
   CREATE_TAG_REJECTED,
+  BRAND_UPDATE_FULFILL,
+  BRAND_UPDATE_REJECTED,
+  BRAND_STATUS_FULFILL,
+  BRAND_STATUS_REJECTED,
+  CREATE_BRAND_FULFILL,
+  CREATE_BRAND_REJECTED,
   DELETE_BRAND_FULFILL,
   DELETE_BRAND_REJECTED,
   DELETE_TAG_FULFILL,
   DELETE_TAG_REJECTED,
-  GET_BRAND_FULFILL,
-  GET_BRAND_REJECTED,
-  GET_BRAND_REQ,
   GET_TAG_FULFILL,
   GET_TAG_REJECTED,
+  TAG_STATUS_FULFILL,
+  TAG_STATUS_REJECTED,
+  TAG_UPDATE_FULFILL,
+  TAG_UPDATE_REJECTED,
+  GET_CATEGORY_REQ,
+  GET_CATEGORY_FULFILL,
+  GET_CATEGORY_REJECTED,
 } from './actionTypes';
 
 let api_link = `http://localhost:5050/api/v1/product/`;
@@ -121,12 +128,10 @@ export const brandUpdate =
       await axios
         .put(`${api_link}/brand/${id}`, data)
         .then((res) => {
-          console.log(res);
           dispatch({ type: BRAND_UPDATE_FULFILL, payload: res.data.brand });
           setEditModal(() => (prevState) => ({ ...prevState, show: false }));
         })
         .catch((error) => {
-          console.log(error);
           dispatch({ type: BRAND_UPDATE_REJECTED, payload: error.message });
         });
     } catch (error) {
@@ -157,7 +162,7 @@ export const getAllTags = () => async (dispatch) => {
 
 /**
  * @param patch
- * @function tagStatusUpdate__NotDone
+ * @function tagStatusUpdate
  * @desc Send request to server to update tag status using thunk-middleware
  */
 export const tagStatusUpdate =
@@ -167,14 +172,13 @@ export const tagStatusUpdate =
       await axios
         .patch(`${api_link}/tag-status/${id}`, { status })
         .then((res) => {
-          dispatch({ type: BRAND_STATUS_FULFILL, payload: res.data.brand });
+          dispatch({ type: TAG_STATUS_FULFILL, payload: res.data.tag });
         })
         .catch((error) => {
-          console.log(error);
-          dispatch({ type: BRAND_STATUS_REJECTED, payload: error.message });
+          dispatch({ type: TAG_STATUS_REJECTED, payload: error.message });
         });
     } catch (error) {
-      dispatch({ type: BRAND_STATUS_REJECTED, payload: error.message });
+      dispatch({ type: TAG_STATUS_REJECTED, payload: error.message });
     }
   };
 
@@ -200,6 +204,30 @@ export const createTag = (input) => async (dispatch) => {
 };
 
 /**
+ * @param put
+ * @function tagUpdate
+ * @desc Send request to server to update tag using thunk-middleware
+ */
+export const tagUpdate =
+  ({ data, setEditModal, id }) =>
+  async (dispatch) => {
+    try {
+      await axios
+        .put(`${api_link}tag/${id}`, data)
+        .then((res) => {
+          console.log(res.data);
+          dispatch({ type: TAG_UPDATE_FULFILL, payload: res.data.tags });
+          setEditModal(() => (prevState) => ({ ...prevState, show: false }));
+        })
+        .catch((error) => {
+          dispatch({ type: TAG_UPDATE_REJECTED, payload: error.message });
+        });
+    } catch (error) {
+      dispatch({ type: TAG_UPDATE_REJECTED, payload: error.message });
+    }
+  };
+
+/**
  * @param delete
  * @function deleteTag
  * @desc Send request to server to delete tag using thunk-middleware
@@ -216,5 +244,28 @@ export const deleteTag = (id) => async (dispatch) => {
       });
   } catch (error) {
     dispatch({ type: DELETE_TAG_REJECTED, payload: error.message });
+  }
+};
+
+/**
+ * category start
+ * @param get
+ * @function getCategories
+ * @description get category request using thunk-middleware
+ */
+export const getCategories = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_CATEGORY_REQ });
+    await axios
+      .get(api_link + 'category')
+      .then((res) => {
+        console.log(res.data.categories);
+        dispatch({ type: GET_CATEGORY_FULFILL, payload: res.data.categories });
+      })
+      .catch((error) => {
+        dispatch({ type: GET_CATEGORY_REJECTED, payload: error.message });
+      });
+  } catch (error) {
+    dispatch({ type: GET_CATEGORY_REJECTED, payload: error.message });
   }
 };

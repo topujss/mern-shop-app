@@ -2,6 +2,8 @@ import {
   BRAND_STATUS_FULFILL,
   BRAND_UPDATE_FULFILL,
   CREATE_BRAND_FULFILL,
+  CREATE_CATEGORY_FULFILL,
+  CREATE_CATEGORY_REJECTED,
   CREATE_TAG_FULFILL,
   CREATE_TAG_REJECTED,
   DELETE_BRAND_FULFILL,
@@ -9,8 +11,12 @@ import {
   GET_BRAND_FULFILL,
   GET_BRAND_REJECTED,
   GET_BRAND_REQ,
+  GET_CATEGORY_FULFILL,
+  GET_CATEGORY_REJECTED,
   GET_TAG_FULFILL,
   GET_TAG_REJECTED,
+  TAG_STATUS_FULFILL,
+  TAG_UPDATE_FULFILL,
 } from './actionTypes';
 import initialState from './initState';
 
@@ -98,6 +104,33 @@ const shopReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         tags: state.tags.filter((d) => d._id !== payload),
+      };
+
+    case TAG_UPDATE_FULFILL:
+      state.tags[state.tags.findIndex((findId) => findId._id === payload._id)] = payload;
+      return {
+        ...state,
+        tags: state.tags,
+      };
+
+    case TAG_STATUS_FULFILL:
+      state.tags[state.tags.findIndex((getId) => getId._id === payload._id)] = payload;
+      return {
+        ...state,
+        tags: state.tags,
+      };
+
+    case GET_CATEGORY_FULFILL:
+      return {
+        ...state,
+        categories: payload,
+      };
+
+    case GET_CATEGORY_REJECTED:
+      return {
+        ...state,
+        categories: [],
+        error: payload,
       };
 
     default:

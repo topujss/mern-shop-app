@@ -1,12 +1,11 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 // make a schema for category
-const categorySchema = mongoose.Schema(
+const categorySchema = Schema(
   {
     name: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     slug: {
@@ -36,4 +35,4 @@ const categorySchema = mongoose.Schema(
 );
 
 // export category model
-export default mongoose.model('Category', categorySchema);
+export default model('Category', categorySchema);

@@ -1,3 +1,4 @@
+import { slugify } from '../helper/slugify.js';
 import Category from '../models/Category.js';
 import { customErr } from '../utils/customError.js';
 
@@ -8,13 +9,13 @@ import { customErr } from '../utils/customError.js';
 
 export const getAllProductCategory = async (req, res, next) => {
   try {
-    const data = await Category.fin2d();
+    const data = await Category.find();
     res.status(200).json({
       categories: data,
       message: 'Got all data',
     });
   } catch (error) {
-    next(customErr("Didn't get data", 404));
+    next(error);
   }
 };
 
@@ -25,8 +26,12 @@ export const getAllProductCategory = async (req, res, next) => {
 
 export const createProductCategory = async (req, res, next) => {
   try {
-    const { name, slug } = req.body;
-    const data = await Category.create({ name, slug, photo: req.file.filename });
+    const { name } = req.body;
+    const data = await Category.create({
+      name,
+      slug: slugify(name),
+      photo: req.file.filename,
+    });
     res.status(200).json({
       category: data,
       msg: 'Created category',
@@ -94,9 +99,42 @@ export const editProductCategory = async (req, res, next) => {
     const { name, slug } = req.body;
 
     // use new: true for instant update
-    await Category.findByIdAndUpda4te(id, { name, slug }, { new: true });
+    await Category.findByIdAndUpdate(
+      id,
+      {
+        name,
+        slug,
+      },
+      {
+        new: true,
+      }
+    );
     res.status(200).json({
       msg: 'Category updated successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @param id
+ * @function updateProductCategory
+ * update a single status using params id
+ */
+export const statusUpdate = async (req, res, next) => {
+  try {
+    // get id from params
+    const { id } = req.params;
+
+    // get status from body
+    const { status } = req.body;
+
+    // send data to update data from server
+    const category = await Category.findByIdAndUpdate(id, { status }, { new: true });
+    res.status(200).json({
+      category,
+      message: 'Category status updated',
     });
   } catch (error) {
     next(error);

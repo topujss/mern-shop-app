@@ -97,7 +97,31 @@ export const editProductTag = async (req, res, next) => {
         new: true,
       }
     );
-    res.status(200).json({ updateData, msg: 'product Tag updated' });
+    res.status(200).json({ tags: updateData, msg: 'product Tag updated' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @param id
+ * @function statusUpdate
+ * edit a single product brand by id
+ */
+export const statusUpdate = async (req, res, next) => {
+  try {
+    // get id from params
+    const { id } = req.params;
+
+    // get status from body
+    const { status } = req.body;
+
+    // send data to update data from server
+    const tag = await Tag.findByIdAndUpdate(id, { status }, { new: true });
+    res.status(200).json({
+      tag,
+      message: 'Tag status updated',
+    });
   } catch (error) {
     next(error);
   }

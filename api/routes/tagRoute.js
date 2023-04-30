@@ -5,6 +5,7 @@ import {
   editProductTag,
   getAllProductTag,
   getSingleProductTag,
+  statusUpdate,
 } from '../controllers/productTag.js';
 
 // create Tag router
@@ -21,4 +22,7 @@ router.route('/tag').get(getAllProductTag).post(createProductTag);
  * get, put and delete Tag route using params id
  */
 router.route('/tag/:id').get(getSingleProductTag).put(editProductTag).delete(deleteProductTag);
+
+router.patch('/tag-status/:id', statusUpdate);
+
 export default router;
