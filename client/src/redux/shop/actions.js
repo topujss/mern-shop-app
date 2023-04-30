@@ -24,6 +24,8 @@ import {
   GET_CATEGORY_REQ,
   GET_CATEGORY_FULFILL,
   GET_CATEGORY_REJECTED,
+  CREATE_CATEGORY_FULFILL,
+  CREATE_CATEGORY_REJECTED,
 } from './actionTypes';
 
 let api_link = `http://localhost:5050/api/v1/product/`;
@@ -215,7 +217,6 @@ export const tagUpdate =
       await axios
         .put(`${api_link}tag/${id}`, data)
         .then((res) => {
-          console.log(res.data);
           dispatch({ type: TAG_UPDATE_FULFILL, payload: res.data.tags });
           setEditModal(() => (prevState) => ({ ...prevState, show: false }));
         })
@@ -259,7 +260,6 @@ export const getCategories = () => async (dispatch) => {
     await axios
       .get(api_link + 'category')
       .then((res) => {
-        console.log(res.data.categories);
         dispatch({ type: GET_CATEGORY_FULFILL, payload: res.data.categories });
       })
       .catch((error) => {
@@ -269,3 +269,25 @@ export const getCategories = () => async (dispatch) => {
     dispatch({ type: GET_CATEGORY_REJECTED, payload: error.message });
   }
 };
+
+/**
+ * @param post
+ * @function createCategory
+ * @description get category request using thunk-middleware
+ */
+export const createCategory =
+  ({ data }) =>
+  async (dispatch) => {
+    try {
+      await axios
+        .post(api_link + 'category', data)
+        .then((res) => {
+          dispatch({ type: CREATE_CATEGORY_FULFILL, payload: res.data.category });
+        })
+        .catch((error) => {
+          dispatch({ type: CREATE_CATEGORY_REJECTED, payload: error.message });
+        });
+    } catch (error) {
+      dispatch({ type: CREATE_CATEGORY_REJECTED, payload: error.message });
+    }
+  };

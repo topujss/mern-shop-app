@@ -4,7 +4,8 @@ import { FiEdit3 } from 'react-icons/fi';
 import { SlTrash } from 'react-icons/sl';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { createCategory } from '../../redux/shop/actions';
 
 const Category = () => {
   const [modal, setModal] = useState(false);
@@ -14,17 +15,37 @@ const Category = () => {
     show: false,
     dataId: null,
   });
-
   const [edit, setEdit] = useState({
     name: '',
     logo: null,
   });
+
+  const dispatch = useDispatch();
 
   const { categories } = useSelector((s) => s.shop);
 
   // to upload a file
   const handleFileUpload = (e) => {
     setPic(e.target.files[0]);
+  };
+
+  // Create category data
+  const handleCreateSubmit = (e) => {
+    e.preventDefault();
+
+    // create formData object for photo uploading
+    const data = new FormData();
+
+    // Now, add data to form data
+    data.append('name', name);
+    data.append('category_photo', pic);
+
+    // Finally, add all data to create category
+    dispatch(createCategory(data));
+
+    // make data to its inital value noce data created
+    setPic(null);
+    setName('');
   };
 
   // to make status update
@@ -42,7 +63,7 @@ const Category = () => {
   return (
     <div className="table_area">
       <GlobalModal show={modal} onHide={() => setModal(false)} title={'Add New Category'}>
-        <Form onSubmit={'handleCreateSubmit'}>
+        <Form onSubmit={handleCreateSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Category name</Form.Label>
             <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
