@@ -1,5 +1,6 @@
 import Brand from '../models/Brand.js';
 import { slugify } from '../helper/slugify.js';
+import { unlinkSync } from 'fs';
 
 /**
  * @function getAllBrand
@@ -64,7 +65,11 @@ export const getSingleProductBrand = async (req, res, next) => {
 export const deleteProductBrand = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Brand.findByIdAndDelete(id);
+    const deleted = await Brand.findByIdAndDelete(id);
+
+    // delete single product photo
+    unlinkSync(`api/public/brands/${deleted.photo}`);
+
     res.status(200).json({
       msg: 'product brand deleted',
     });
@@ -82,16 +87,18 @@ export const editProductBrand = async (req, res, next) => {
     const { id } = req.params;
     const { name, photo } = req.body;
 
-    await Brand.findByIdAndUpdate(
+    const data = await Brand.findByIdAndUpdate(
       id,
       {
         name,
         slug: slugify(name),
         photo: req.file?.filename ? req.file?.filename : photo,
       },
-      { new: true }
+      {
+        new: true,
+      }
     );
-    res.status(200).json({ msg: 'product brand updated' });
+    res.status(200).json({ brand: data, msg: 'product brand updated' });
   } catch (error) {
     next(error);
   }

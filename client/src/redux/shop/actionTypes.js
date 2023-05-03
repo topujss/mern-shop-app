@@ -44,24 +44,47 @@ export const DELETE_TAG_FULFILL = 'DELETE_TAG_FULFILL';
 export const DELETE_TAG_REJECTED = 'DELETE_TAG_REJECTED';
 
 /**
- * category get
+ * category get -d
  */
 export const GET_CATEGORY_REQ = 'GET_CATEGORY_REQ';
 export const GET_CATEGORY_FULFILL = 'GET_CATEGORY_FULFILL';
 export const GET_CATEGORY_REJECTED = 'GET_CATEGORY_REJECTED';
 
-// category create
+// category create -d
 export const CREATE_CATEGORY_FULFILL = 'CREATE_CATEGORY_FULFILL';
 export const CREATE_CATEGORY_REJECTED = 'CREATE_CATEGORY_REJECTED';
 
-// brand delete
+// category delete -d
 export const DELETE_CATEGORY_FULFILL = 'DELETE_CATEGORY_FULFILL';
 export const DELETE_CATEGORY_REJECTED = 'DELETE_CATEGORY_REJECTED';
 
-// brand status
+// category status -d
 export const CATEGORY_STATUS_FULFILL = 'CATEGORY_STATUS_FULFILL';
 export const CATEGORY_STATUS_REJECTED = 'CATEGORY_STATUS_REJECTED';
 
-// brand update
+// category update -nd
 export const CATEGORY_UPDATE_FULFILL = 'CATEGORY_UPDATE_FULFILL';
 export const CATEGORY_UPDATE_REJECTED = 'CATEGORY_UPDATE_REJECTED';
+
+/**
+ * products get -nd
+ */
+export const GET_PRODUCT_REQ = 'GET_PRODUCT_REQ';
+export const GET_PRODUCT_FULFILL = 'GET_PRODUCT_FULFILL';
+export const GET_PRODUCT_REJECTED = 'GET_PRODUCT_REJECTED';
+
+// category create -nd
+export const CREATE_PRODUCT_FULFILL = 'CREATE_PRODUCT_FULFILL';
+export const CREATE_PRODUCT_REJECTED = 'CREATE_PRODUCT_REJECTED';
+
+// category delete -nd
+export const DELETE_PRODUCT_FULFILL = 'DELETE_PRODUCT_FULFILL';
+export const DELETE_PRODUCT_REJECTED = 'DELETE_PRODUCT_REJECTED';
+
+// category status -nd
+export const PRODUCT_STATUS_FULFILL = 'PRODUCT_STATUS_FULFILL';
+export const PRODUCT_STATUS_REJECTED = 'PRODUCT_STATUS_REJECTED';
+
+// category update -nd
+export const PRODUCT_UPDATE_FULFILL = 'PRODUCT_UPDATE_FULFILL';
+export const PRODUCT_UPDATE_REJECTED = 'PRODUCT_UPDATE_REJECTED';

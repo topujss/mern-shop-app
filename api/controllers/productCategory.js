@@ -1,6 +1,7 @@
 import { slugify } from '../helper/slugify.js';
 import Category from '../models/Category.js';
 import { customErr } from '../utils/customError.js';
+import { unlinkSync } from 'fs';
 
 /**
  * @function getAllCategory
@@ -79,6 +80,9 @@ export const deleteProductCategory = async (req, res, next) => {
     // find and delete data according to params id
     const data = await Category.findByIdAndDelete(id);
 
+    // delete single product photo
+    unlinkSync(`api/public/categories/${data.photo}`);
+
     // send success message
     res.status(200).json({
       msg: 'Category deleted successfully',
@@ -96,20 +100,22 @@ export const deleteProductCategory = async (req, res, next) => {
 export const editProductCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, slug } = req.body;
+    const { name, photo } = req.body;
 
     // use new: true for instant update
-    await Category.findByIdAndUpdate(
+    const data = await Category.findByIdAndUpdate(
       id,
       {
         name,
-        slug,
+        slug: slugify(name),
+        photo: req.file?.filename ? req.file?.filename : photo,
       },
       {
         new: true,
       }
     );
     res.status(200).json({
+      category: data,
       msg: 'Category updated successfully',
     });
   } catch (error) {

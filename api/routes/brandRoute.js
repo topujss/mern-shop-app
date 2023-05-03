@@ -22,7 +22,12 @@ router.route('/brand').get(getAllProductBrand).post(brandMulter, createProductBr
  * @param id
  * get, put and delete brand route using params id
  */
-router.route('/brand/:id').get(getSingleProductBrand).put(editProductBrand).delete(deleteProductBrand).patch();
+router
+  .route('/brand/:id')
+  .get(getSingleProductBrand)
+  .put(brandMulter, editProductBrand)
+  .patch(brandMulter, editProductBrand)
+  .delete(deleteProductBrand);
 
 router.patch('/brand-status/:id', statusUpdate);
 export default router;

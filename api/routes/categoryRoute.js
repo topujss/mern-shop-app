@@ -12,20 +12,33 @@ import { categoryMulter } from '../utils/multer.js';
 // create router
 const router = Router();
 
-// get and post category route
+/**
+ * @param id
+ * @route GET /category
+ * @desc get all category & post category with photo
+ * @access PUBLIC
+ */
 router.route('/category').get(getAllProductCategory).post(categoryMulter, createProductCategory);
 
 /**
  * @param slug
- * get category route using params slug
+ * @route GET /category/:slug
+ * @desc get single category
  */
 router.route('/category/:slug').get(getSingleProductCategory);
 
 /**
  * @param id
- * get category route using params id
+ * @route DELETE, PATCH /category/:id
+ * @desc delete and update category data
  */
-router.route('/category/:id').delete(deleteProductCategory).put(editProductCategory);
-router.put('/category/:id', statusUpdate);
+router.route('/category/:id').delete(deleteProductCategory).patch(categoryMulter, editProductCategory);
+
+/**
+ * @param id
+ * @route PATCH /category-status/:id
+ * @desc update category status
+ */
+router.patch('/category-status/:id', statusUpdate);
 
 export default router;

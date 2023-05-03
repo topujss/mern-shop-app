@@ -26,6 +26,12 @@ import {
   GET_CATEGORY_REJECTED,
   CREATE_CATEGORY_FULFILL,
   CREATE_CATEGORY_REJECTED,
+  DELETE_CATEGORY_FULFILL,
+  DELETE_CATEGORY_REJECTED,
+  CATEGORY_STATUS_FULFILL,
+  CATEGORY_STATUS_REJECTED,
+  CATEGORY_UPDATE_FULFILL,
+  CATEGORY_UPDATE_REJECTED,
 } from './actionTypes';
 
 let api_link = `http://localhost:5050/api/v1/product/`;
@@ -128,7 +134,7 @@ export const brandUpdate =
   async (dispatch) => {
     try {
       await axios
-        .put(`${api_link}/brand/${id}`, data)
+        .patch(`${api_link}/brand/${id}`, data)
         .then((res) => {
           dispatch({ type: BRAND_UPDATE_FULFILL, payload: res.data.brand });
           setEditModal(() => (prevState) => ({ ...prevState, show: false }));
@@ -275,19 +281,80 @@ export const getCategories = () => async (dispatch) => {
  * @function createCategory
  * @description get category request using thunk-middleware
  */
-export const createCategory =
-  ({ data }) =>
+export const createCategory = (data) => async (dispatch) => {
+  try {
+    await axios
+      .post(api_link + 'category', data)
+      .then((res) => {
+        dispatch({ type: CREATE_CATEGORY_FULFILL, payload: res.data.category });
+      })
+      .catch((error) => {
+        dispatch({ type: CREATE_CATEGORY_REJECTED, payload: error.message });
+      });
+  } catch (error) {
+    dispatch({ type: CREATE_CATEGORY_REJECTED, payload: error.message });
+  }
+};
+
+/**
+ * @param delete
+ * @function deleteCategory
+ * @desc Send request to server to delete Category using thunk-middleware
+ */
+export const deleteCategory = (id) => async (dispatch) => {
+  try {
+    await axios
+      .delete(`${api_link}category/${id}`)
+      .then((res) => {
+        dispatch({ type: DELETE_CATEGORY_FULFILL, payload: id }); // send this id to match with link id to delete single tag
+      })
+      .catch((error) => {
+        dispatch({ type: DELETE_CATEGORY_REJECTED, payload: error.message });
+      });
+  } catch (error) {
+    dispatch({ type: DELETE_CATEGORY_REJECTED, payload: error.message });
+  }
+};
+
+/**
+ * @param patch
+ * @function categoryStatusUpdate
+ * @desc Send request to server to update category status using thunk-middleware
+ */
+export const categoryStatusUpdate =
+  ({ id, status }) =>
   async (dispatch) => {
     try {
       await axios
-        .post(api_link + 'category', data)
+        .patch(`${api_link}/category-status/${id}`, { status })
         .then((res) => {
-          dispatch({ type: CREATE_CATEGORY_FULFILL, payload: res.data.category });
+          dispatch({ type: CATEGORY_STATUS_FULFILL, payload: res.data.category });
         })
         .catch((error) => {
-          dispatch({ type: CREATE_CATEGORY_REJECTED, payload: error.message });
+          dispatch({ type: CATEGORY_STATUS_REJECTED, payload: error.message });
         });
     } catch (error) {
-      dispatch({ type: CREATE_CATEGORY_REJECTED, payload: error.message });
+      dispatch({ type: CATEGORY_STATUS_REJECTED, payload: error.message });
+    }
+  };
+
+/**
+ * @param patch
+ * @function categoryUpdate
+ * @desc Send request to server to update category using thunk-middleware
+ */
+export const categoryUpdate =
+  ({ data, id, setEditModal }) =>
+  async (dispatch) => {
+    try {
+      await axios
+        .patch(`${api_link}/category/${id}`, data)
+        .then((res) => {
+          dispatch({ type: CATEGORY_UPDATE_FULFILL, payload: res.data.category });
+          setEditModal(() => (prevState) => ({ ...prevState, show: false }));
+        })
+        .catch((error) => dispatch({ type: CATEGORY_UPDATE_REJECTED, payload: error.message }));
+    } catch (error) {
+      dispatch({ type: CATEGORY_UPDATE_REJECTED, payload: error.message });
     }
   };

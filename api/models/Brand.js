@@ -4,12 +4,10 @@ const brandSchema = Schema(
   {
     name: {
       type: String,
-      required: true,
       trim: true,
     },
     slug: {
       type: String,
-      required: true,
       trim: true,
     },
     photo: {

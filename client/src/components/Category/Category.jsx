@@ -5,7 +5,8 @@ import { SlTrash } from 'react-icons/sl';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createCategory } from '../../redux/shop/actions';
+import { categoryStatusUpdate, categoryUpdate, createCategory, deleteCategory } from '../../redux/shop/actions';
+import swal from 'sweetalert';
 
 const Category = () => {
   const [modal, setModal] = useState(false);
@@ -43,22 +44,74 @@ const Category = () => {
     // Finally, add all data to create category
     dispatch(createCategory(data));
 
-    // make data to its inital value noce data created
+    // make data to its inital value once data created
     setPic(null);
     setName('');
+    setModal(false); // hide the modal
   };
 
   // to make status update
-  const handleStatus = () => {};
+  const handleStatus = (id, status) => {
+    dispatch(categoryStatusUpdate({ id, status: !status }));
+  };
 
   // to edit data
-  const handleEdit = () => {};
+  const handleEdit = (id) => {
+    // find that data by matching ID that you got
+    const edit_data = categories.find((d) => d._id === id);
+
+    // Now, set input data to useState
+    setEdit(edit_data);
+
+    // make edit modal visible
+    setEditModal({
+      show: true,
+      dataId: id,
+    });
+  };
 
   // to submit data after everything done
-  const handleEditSubmit = () => {};
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+
+    // create form data for photo upload
+    const data = new FormData();
+
+    data.append('name', edit?.name);
+    data.append('photo', edit?.photo);
+    data.append('category_photo', pic);
+
+    // update category redux way
+    dispatch(categoryUpdate({ id: editModal.dataId, data, setEditModal }));
+
+    // make data to its inital value once data created
+
+    setModal(false); // hide the modal
+  };
 
   // to delete data
-  const handleDelete = () => {};
+  const handleDelete = (id) => {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this imaginary file!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then((del) => {
+      if (del) {
+        dispatch(deleteCategory(id));
+        swal('Poof! Your imaginary file has been deleted!', {
+          icon: 'success',
+        });
+      } else {
+        swal('Your imaginary file is safe!');
+      }
+    });
+  };
+
+  const handleCategoryLogo = (e) => {
+    setPic(e.target.files[0]);
+  };
 
   return (
     <div className="table_area">
@@ -107,14 +160,14 @@ const Category = () => {
                     <img style={{ width: '50px' }} src={`http://localhost:5050/categories/${photo}`} alt="" />
                   </td>
                   <td>
-                    <Form.Switch type="switch" checked={status} onChange={() => handleStatus()} />
+                    <Form.Switch type="switch" checked={status} onChange={() => handleStatus(_id, status)} />
                   </td>
                   <td>
-                    <ButtonGroup size="sm" onClick={() => handleEdit()}>
-                      <Button className="btn-warning me-1">
+                    <ButtonGroup size="sm">
+                      <Button className="btn-warning me-1" onClick={() => handleEdit(_id)}>
                         <FiEdit3 />
                       </Button>
-                      <Button className="btn-danger" onClick={() => handleDelete()}>
+                      <Button className="btn-danger" onClick={() => handleDelete(_id)}>
                         <SlTrash />
                       </Button>
                     </ButtonGroup>
@@ -145,6 +198,19 @@ const Category = () => {
               defaultValue={edit.name}
               onChange={(e) => setEdit((prevState) => ({ ...prevState, name: e.target.value }))}
             />
+          </Form.Group>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Category logo</Form.Label>
+            <Form.Control type="file" className="" onChange={handleCategoryLogo} />
+            {pic ? (
+              <img className="w-100 object-fit-cover rounded p-2 pt-4" src={URL.createObjectURL(pic)} alt="" />
+            ) : (
+              <img
+                className="w-100 object-fit-cover rounded p-2 pt-4"
+                src={`http://localhost:5050/categories/${edit.photo}`}
+                alt=""
+              />
+            )}
           </Form.Group>
           <Button variant="success" type="submit" className="d-block">
             Add Category

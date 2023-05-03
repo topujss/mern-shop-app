@@ -1,18 +1,23 @@
 import {
   BRAND_STATUS_FULFILL,
   BRAND_UPDATE_FULFILL,
+  CATEGORY_STATUS_FULFILL,
+  CATEGORY_UPDATE_FULFILL,
   CREATE_BRAND_FULFILL,
   CREATE_CATEGORY_FULFILL,
-  CREATE_CATEGORY_REJECTED,
   CREATE_TAG_FULFILL,
   CREATE_TAG_REJECTED,
   DELETE_BRAND_FULFILL,
+  DELETE_CATEGORY_FULFILL,
   DELETE_TAG_FULFILL,
   GET_BRAND_FULFILL,
   GET_BRAND_REJECTED,
   GET_BRAND_REQ,
   GET_CATEGORY_FULFILL,
   GET_CATEGORY_REJECTED,
+  GET_PRODUCT_FULFILL,
+  GET_PRODUCT_REJECTED,
+  GET_PRODUCT_REQ,
   GET_TAG_FULFILL,
   GET_TAG_REJECTED,
   TAG_STATUS_FULFILL,
@@ -66,13 +71,14 @@ const shopReducer = (state = initialState, { type, payload }) => {
 
     case BRAND_UPDATE_FULFILL:
       state.brands[state.brands.findIndex((findId) => findId._id === payload._id)] = payload;
+
       return {
         ...state,
         brands: state.brands,
       };
 
     /**
-     * tag reducer start
+     * TAG reducer start
      */
 
     case GET_TAG_FULFILL:
@@ -120,6 +126,10 @@ const shopReducer = (state = initialState, { type, payload }) => {
         tags: state.tags,
       };
 
+    /**
+     * CATEGORY reducer start
+     */
+
     case GET_CATEGORY_FULFILL:
       return {
         ...state,
@@ -130,6 +140,57 @@ const shopReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         categories: [],
+        error: payload,
+      };
+
+    case CREATE_CATEGORY_FULFILL:
+      return {
+        ...state,
+        categories: [...state.categories, payload],
+      };
+
+    case DELETE_CATEGORY_FULFILL:
+      return {
+        ...state,
+        categories: state.categories.filter((d) => d._id !== payload),
+      };
+
+    case CATEGORY_STATUS_FULFILL:
+      state.categories[state.categories.findIndex((getId) => getId._id === payload._id)] = payload;
+      return {
+        ...state,
+        categories: state.categories,
+      };
+
+    case CATEGORY_UPDATE_FULFILL:
+      state.categories[state.categories.findIndex((getId) => getId._id === payload._id)] = payload;
+      return {
+        ...state,
+        categories: state.categories,
+      };
+
+    /**
+     * PRODUCTS reducer start
+     */
+    case GET_PRODUCT_REQ:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_PRODUCT_FULFILL:
+      return {
+        ...state,
+        loading: false,
+        products: [...payload],
+        message: 'Product successfully loaded',
+      };
+
+    case GET_PRODUCT_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        products: [],
         error: payload,
       };
 
