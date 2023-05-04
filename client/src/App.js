@@ -3,7 +3,7 @@ import publicRoute from './routes/publicRoute';
 import './App.scss';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getAllBrands, getAllTags, getCategories } from './redux/shop/actions';
+import { getAllBrands, getAllProduct, getAllTags, getCategories } from './redux/shop/actions';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -12,6 +12,7 @@ export default function App() {
     dispatch(getAllBrands());
     dispatch(getAllTags());
     dispatch(getCategories());
+    dispatch(getAllProduct());
   }, [dispatch]);
 
   return <RouterProvider router={publicRoute} />;

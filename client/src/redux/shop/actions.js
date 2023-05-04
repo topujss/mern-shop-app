@@ -32,6 +32,9 @@ import {
   CATEGORY_STATUS_REJECTED,
   CATEGORY_UPDATE_FULFILL,
   CATEGORY_UPDATE_REJECTED,
+  GET_PRODUCT_REQ,
+  GET_PRODUCT_FULFILL,
+  GET_PRODUCT_REJECTED,
 } from './actionTypes';
 
 let api_link = `http://localhost:5050/api/v1/product/`;
@@ -358,3 +361,25 @@ export const categoryUpdate =
       dispatch({ type: CATEGORY_UPDATE_REJECTED, payload: error.message });
     }
   };
+
+/**
+ * product admin start
+ * @param GET
+ * @function getAllProduct
+ * @desc get all products form database
+ */
+export const getAllProduct = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_PRODUCT_REQ });
+    await axios
+      .get(api_link)
+      .then((res) => {
+        dispatch({ type: GET_PRODUCT_FULFILL, payload: res.data.products });
+      })
+      .catch((error) => {
+        dispatch({ type: GET_PRODUCT_REJECTED, payload: error.message });
+      });
+  } catch (error) {
+    dispatch({ type: GET_PRODUCT_REJECTED, payload: error.message });
+  }
+};

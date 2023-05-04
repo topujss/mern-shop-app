@@ -24,7 +24,7 @@ export const getAllProduct = async (req, res, next) => {
  */
 export const createProduct = async (req, res, next) => {
   try {
-    const { product, price, sale_price, condition, stock, desc, long_desc, categories, tags, brands } = req.body;
+    const { name, price, sale_price, condition, stock, desc, long_desc, categories, tags, brands } = req.body;
 
     // get single photo
     const photo = req.files.product_photo[0].filename;
@@ -38,8 +38,8 @@ export const createProduct = async (req, res, next) => {
     photo ? photo.filename : gallery[0].filename;
 
     const data = await Product.create({
-      product,
-      slug: slugify(product),
+      name,
+      slug: slugify(name),
       price,
       sale_price,
       condition,

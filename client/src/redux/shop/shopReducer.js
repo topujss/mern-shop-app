@@ -45,7 +45,6 @@ const shopReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        brands: [],
         error: payload,
       };
 
@@ -90,7 +89,6 @@ const shopReducer = (state = initialState, { type, payload }) => {
     case GET_TAG_REJECTED:
       return {
         ...state,
-        tags: [],
         error: payload,
       };
 
@@ -139,7 +137,6 @@ const shopReducer = (state = initialState, { type, payload }) => {
     case GET_CATEGORY_REJECTED:
       return {
         ...state,
-        categories: [],
         error: payload,
       };
 
@@ -190,7 +187,6 @@ const shopReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        products: [],
         error: payload,
       };
 

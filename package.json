@@ -8,7 +8,7 @@
     "server": "nodemon api/server.js",
     "client": "npm start --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "push": "git add . && git commit -m \"Working on tag\" && git push"
+    "push": "git add . && git commit -m \"eveything done except product development\" && git push"
   },
   "keywords": [],
   "author": "",

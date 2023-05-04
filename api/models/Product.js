@@ -2,9 +2,8 @@ import mongoose, { model, Schema } from 'mongoose';
 
 const productSchema = Schema(
   {
-    product: {
+    name: {
       type: String,
-      required: true,
       trim: true,
     },
     slug: {

@@ -35,3 +35,10 @@ input:focus {
   word-spacing: 1.1rem !important;
   transition: all 0.3s ease-in-out !important;
 }
+
+form {
+  label.me {
+    color: #b12872;
+    font-weight: 700;
+  }
+}
